@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infracstructures.MappingHelpers
+namespace Application.Repositories
 {
-    public class EnumMapper
+    public interface ITaskRepository : IGenericRepository<Task>
     {
     }
 }

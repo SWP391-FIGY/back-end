@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infracstructures.MappingHelpers
+namespace Application.Interfaces
 {
-    public class EnumMapper
+    public interface ICageService
     {
+        public Task<string> GetCageByID(int id);
     }
 }

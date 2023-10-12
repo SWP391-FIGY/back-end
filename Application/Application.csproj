@@ -8,11 +8,13 @@
 
   <ItemGroup>
     <Folder Include="IValidators\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Repositories\" />
-    <Folder Include="Services\" />
     <Folder Include="Utils\" />
-    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BirdFarmAPI\BirdFarmAPI.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>
