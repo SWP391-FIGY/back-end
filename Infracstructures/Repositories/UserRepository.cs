@@ -13,6 +13,7 @@ namespace Infracstructures.Repositories
     {
         public UserRepository(AppDbContext context): base(context)
         {
+
         }
         
     }

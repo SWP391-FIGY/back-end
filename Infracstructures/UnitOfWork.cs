@@ -12,6 +12,7 @@ namespace Infracstructures
         private GenericRepository<Cage> _cageRepo;
         private GenericRepository<FeedingPlan> _feedingPlanRepo;
         private GenericRepository<Food> _foodRepo;
+        private GenericRepository<Log> _logRepo;
         private GenericRepository<MealMenu> _mealMenuRepo;
         private GenericRepository<MenuDetail> _menuDetailRepo;
         private GenericRepository<PurchaseOrder> _purchaseOrderRepo;
@@ -72,6 +73,17 @@ namespace Infracstructures
             }
         }
 
+        public GenericRepository<Log> LogRepo
+        {
+            get
+            {
+                if (this._logRepo == null)
+                {
+                    this._logRepo = new GenericRepository<Log>(_context);
+                }
+                return _logRepo;
+            }
+        }
         public GenericRepository<MealMenu> MealMenuRepo
         {
             get
