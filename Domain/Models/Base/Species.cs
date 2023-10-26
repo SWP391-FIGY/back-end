@@ -17,5 +17,7 @@ namespace Domain.Models.Base
         public int Age { get; set; }
         public string Habitat { set; get; }
         public int Total { get; set; }
+        public IList<Bird>? birds { get; set; }
+        public IList<MealMenu>? mealMenus { get; set; }
     }
 }

@@ -6,16 +6,14 @@ using System.Threading.Tasks;
 
 namespace Domain.Models.Base
 {
-    public class FeedingPlan
+    public class Log
     {
         public int ID { get; set; }
-        public string DateTime { set; get; }
-        public string FeedingStatus { set; get; }
-        public string Notation { set; get; }
+        public string Date { get; set; }
+        public string Detail { get; set; }
+        public int CageID { get; set; }
+        public Cage? Cage { get; set; }
         public int BirdID { get; set; }
         public Bird? Bird { get; set; }
-        public int MenuID { get; set; }
-        public MealMenu? MealMenu { get; set; }
-
     }
 }

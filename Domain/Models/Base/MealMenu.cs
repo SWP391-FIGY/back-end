@@ -17,5 +17,7 @@ namespace Domain.Models.Base
         public string NutritionalIngredients { get; set; }
         public int SpeceID { get; set; }
         public Species? Species { get; set; }
+        public IList<MenuDetail>? MenuDetails { get; set; }
+        public IList<FeedingPlan>? FeedingPlans { get; set; }  
     }
 }
