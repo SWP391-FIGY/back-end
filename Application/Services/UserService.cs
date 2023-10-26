@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.ViewModels.UserViewModels;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,13 @@ namespace Application.Services
 {
     public class UserService : IUserService
     {
-        #region LoginAsync
-        public async Task<string> LoginAsync(UserLoginViewModel userLogin)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            return null;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
-        #endregion
+        
     }
 }
