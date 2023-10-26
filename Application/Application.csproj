@@ -8,12 +8,14 @@
 
   <ItemGroup>
     <Folder Include="IValidators\" />
-    <Folder Include="Repositories\" />
     <Folder Include="Utils\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BirdFarmAPI\BirdFarmAPI.csproj" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 

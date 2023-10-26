@@ -9,6 +9,6 @@ namespace Application.Interfaces
 {
     public interface IUserService
     {
-        public Task<string> LoginAsync(UserLoginViewModel userLogin);
+        
     }
 }
