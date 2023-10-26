@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Interfaces
+namespace Infracstructures.Interfaces
 {
-    public interface IBirdRepository
+    public interface ITaskService
     {
-        public Task<string> GetBirdByID(int id);
     }
 }

@@ -8,7 +8,7 @@ namespace Domain.Models.Base
 {
     public class Food
     {
-        public int FoodID { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
         public string NutritionalIngredients { get; set; }
         public int StorageCondition { set; get; }

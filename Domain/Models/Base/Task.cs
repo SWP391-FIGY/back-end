@@ -8,14 +8,17 @@ namespace Domain.Models.Base
 {
     public class Task
     {
-        public int UniqueID { get; set; }
+        public int ID { get; set; }
         public string TaskName { get; set; }
         public string DateTime { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
-        public IList<Bird> BirdID { get; set; }
-        public IList<Cage> CageID { get; set; }
-        public IList<User> StaffID { get; set; }
+        public int BirdID { get; set; }
+        public Bird? Bird { get; set; }
+        public int CageID { get; set; }
+        public Cage? Cage { get; set; }
+        public int StaffID { get; set; }
+        public User Staff { get; set; }
 
     }
 }

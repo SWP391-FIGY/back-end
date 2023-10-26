@@ -7,11 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    public class BirdService : IBirdService
+    public class PurchaseRequestDetailService : IPurchaseRequestDetailService
     {
-        public Task<string> GetBirdByID(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Repositories
+namespace Infracstructures.Interfaces
 {
-    public interface IGenericRepository<Bird> where Bird : class
+    public interface IBirdRepository
     {
+        public Task<string> GetBirdByID(int id);
     }
 }

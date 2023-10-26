@@ -8,12 +8,13 @@ namespace Domain.Models.Base
 {
     public class PurchaseOrderDetail
     {
-        public int PODID { get; set; }
+        public int ID { get; set; }
         public int Quantity { get; set; }
         public int Unit { get; set; }
         public int NetPrice { get; set; }
         public string DeliverDate { get; set; }
-        public IList<PurchaseOrder> POID { get; set; }
+        public int POID { get; set; }
+        public PurchaseOrder? PurchaseOrder { get; set; }
         public IList<Food> FoodID { get; set; }
     }
 }

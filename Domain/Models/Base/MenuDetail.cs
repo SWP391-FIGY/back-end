@@ -8,9 +8,10 @@ namespace Domain.Models.Base
 {
     public class MenuDetail
     {
-        public int MDID { get; set; }
+        public int ID { get; set; }
         public int Quantity { get; set; }
-        public IList<MealMenu> MenuID { get; set; }
-        public IList<Food> FoodID { get; set; }
+        public int MenuID { get; set; }
+        public MealMenu? MealMenu { get; set; }
+        public IList<Food>? FoodID { get; set; }
     }
 }

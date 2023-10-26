@@ -8,12 +8,13 @@ namespace Domain.Models.Base
 {
     public class FeedingPlan
     {
-        public int PlanID { get; set; }
+        public int ID { get; set; }
         public string DateTime { set; get; }
         public string FeedingStatus { set; get; }
         public string Notation { set; get; }
-        public IList<Bird> BirdID { get; set; }
-        public IList<MealMenu> MenuID { get; set; }
+        public IList<Bird>? BirdID { get; set; }
+        public int MenuID { get; set; }
+        public MealMenu MealMenu { get; set; }
 
     }
 }

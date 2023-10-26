@@ -1,4 +1,4 @@
-﻿using Application.ViewModels.UserViewModels;
+﻿
 using AutoMapper;
 using Domain.Models.Base;
 using System;
@@ -21,8 +21,6 @@ namespace Infracstructures.Mappers
                     act => act.MapFrom(src => (UserStatus)Enum.Parse(typeof(UserStatus), src.Status)))
                 .ForMember(des => des.Role, src => src.MapFrom(x => x.Role.Name));*/
 
-            CreateMap<User, BaseUserViewModel>()
-                .ForMember(des => des.Role, src => src.MapFrom(x => x.Role));
         }
     }
 }
