@@ -1,4 +1,4 @@
-﻿using Application.ViewModels.UserViewModels;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,5 @@ namespace Infracstructures.Interfaces
 {
     public interface IUserService
     {
-        public Task<string> LoginAsync(UserLoginViewModel userLogin);
     }
 }
