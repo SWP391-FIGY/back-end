@@ -13,8 +13,8 @@ namespace Domain.Models.Base
         public User? Manager { get; set; } 
         public string DateTime { set; get; }
         public int Status { get; set; }
-        public int PurchaseOrderID { get; set; }
+        public int? PurchaseOrderID { get; set; }
         public PurchaseOrder? PurchaseOrder { get; set; }
-        public IList<PurchaseRequestDetail>? purchaseRequestDetails { get; set; }
+        public IList<PurchaseRequestDetail>? PurchaseRequestDetails { get; set; }
     }
 }

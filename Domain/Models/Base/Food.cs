@@ -12,8 +12,7 @@ namespace Domain.Models.Base
         public string Name { get; set; }
         public string NutritionalIngredients { get; set; }
         public int StorageCondition { set; get; }
-        public IList<PurchaseRequestDetail>? PurchaseRequests { get; set;}
-        public int MenuDetailID { get; set; }
-        public MenuDetail? MenuDetail { get; set; }
+        public IList<PurchaseRequestDetail>? PurchaseRequestDetails { get; set;}
+        public IList<MenuDetail>? MenuDetails { get; set; }
     }
 }

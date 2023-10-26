@@ -15,6 +15,7 @@ namespace Domain.Models.Base
         public string DeliverDate { get; set; }
         public int POID { get; set; }
         public PurchaseOrder? PurchaseOrder { get; set; }
-        public IList<Food> FoodID { get; set; }
+        public int FoodID { get; set; }
+        public Food? Food { get; set; }
     }
 }
