@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Infracstructures.Interfaces
 {
-    public interface IBirdRepository
+    public interface IBirdService
     {
         public Task<string> GetBirdByID(int id);
     }
