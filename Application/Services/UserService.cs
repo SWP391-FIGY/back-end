@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces;
-using Application.ViewModels.UserViewModels;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
