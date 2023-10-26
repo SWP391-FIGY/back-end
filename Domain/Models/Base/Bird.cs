@@ -8,13 +8,15 @@ namespace Domain.Models.Base
 {
     public class Bird
     {
-        public int BirdID { get; set; }
+        public int ID { get; set; }
         public string DoB { set; get; }
         public string Gender { set; get; }
         public string Notation { set; get;}
         public int BirdStatus { get; set; }
         public string LastModifyDate { set; get; }
-        public IList<Spiece> SpieceID { get; set; }
-        public IList<Cage> CageID { get; set; }
+        public int SpieceID { get; set; }
+        public Species? Species { get; set; }
+        public int CageID { get; set; }
+        public Cage Cage { get; set; }
     }
 }

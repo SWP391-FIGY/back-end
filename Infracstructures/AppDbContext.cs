@@ -21,7 +21,7 @@ namespace Infracstructures
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetail { get;set; }
         public DbSet<PurchaseRequest> PurchaseRequest { get; set;}
         public DbSet<PurchaseRequestDetail> PurchaseRequestDetail { get; set ; }
-        public DbSet<Spiece> Spiece { get; set; }
+        public DbSet<Species> Spiece { get; set; }
         public DbSet<Task> Task { get; set; }
         public DbSet<User> User { get; set; }
     }

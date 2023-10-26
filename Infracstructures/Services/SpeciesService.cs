@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Services
+namespace Infracstructures.Services
 {
-    public class BirdService : IBirdService
+    public class SpeciesService : ISpieceService
     {
-        public Task<string> GetBirdByID(int id)
+        public Task<string> GetSpiceByID(int id)
         {
             throw new NotImplementedException();
         }

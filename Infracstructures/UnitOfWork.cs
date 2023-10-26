@@ -1,77 +1,204 @@
 ﻿using Application;
 using Application.Repositories;
+using Domain.Models.Base;
+using Infracstructures.Repositories;
 
 namespace Infracstructures
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IDisposable
     {
-        private readonly AppDbContext _context;
-        private readonly IBirdRepository _birdRepo;
-        private readonly ICageRepository _cageRepo;
-        private readonly IFeedingPlanRepository _feedingPlanRepo;
-        private readonly IFoodRepository _foodRepo;
-        private readonly IMealMenuRepository _mealMenuRepo;
-        private readonly IMenuDetailRepository _menuDetailRepo;
-        private readonly IPurchaseOrderRepository _PORepo;
-        private readonly IPurchaseOrderDetailRepository _PODRepo;
-        private readonly IPurchaseRequestRepository _PRRepo;
-        private readonly IPurchaseRequestDetailRepository _PRDRepo;
-        private readonly ISpieceRepository _spieceRepo;
-        private readonly ITaskRepository _taskRepo;
-        private readonly IUserRepository _userRepo;
+        private AppDbContext _context;
+        private GenericRepository<Bird> _birdRepo;
+        private GenericRepository<Cage> _cageRepo;
+        private GenericRepository<FeedingPlan> _feedingPlanRepo;
+        private GenericRepository<Food> _foodRepo;
+        private GenericRepository<MealMenu> _mealMenuRepo;
+        private GenericRepository<MenuDetail> _menuDetailRepo;
+        private GenericRepository<PurchaseOrder> _purchaseOrderRepo;
+        private GenericRepository<PurchaseOrderDetail> _purchaseOrderDetailRepo;
+        private GenericRepository<PurchaseRequest> _purchaseRequestRepo;
+        private GenericRepository<PurchaseRequestDetail> _purchaseRequestDetailRepo;
+        private GenericRepository<Species> _speciesRepo;
+        private GenericRepository<Domain.Models.Base.Task> _taskRepo;
+        private GenericRepository<User> _userRepo;
         
         
-        public UnitOfWork(AppDbContext context, IBirdRepository birdRepository, ICageRepository cageRepository,
-            IFeedingPlanRepository feedingPlanRepository, IFoodRepository foodRepository,
-            IMealMenuRepository mealMenuRepository, IMenuDetailRepository menuDetailRepository,
-            IPurchaseOrderRepository PORepository, IPurchaseOrderDetailRepository PODRepository,
-            IPurchaseRequestRepository PRRepository, IPurchaseRequestDetailRepository PRDRepository,
-            ISpieceRepository spieceRepository, ITaskRepository taskRepository, IUserRepository userRepository)
+        
+        public GenericRepository<Bird> BirdRepo
         {
-            _context = context;
-            _birdRepo = birdRepository;
-            _cageRepo = cageRepository;
-            _foodRepo = foodRepository;
-            _feedingPlanRepo = feedingPlanRepository;
-            _mealMenuRepo = mealMenuRepository;
-            _menuDetailRepo = menuDetailRepository;
-            _PORepo = PORepository;
-            _PRRepo = PRRepository;
-            _PRDRepo = PRDRepository;
-            _taskRepo = taskRepository;
-            _userRepo = userRepository;
-            _spieceRepo = spieceRepository;
+            get
+            {
+                if (this._birdRepo == null)
+                {
+                    this._birdRepo = new GenericRepository<Bird>(_context);
+                }
+                return _birdRepo;
+            }
         }
 
-        public IBirdRepository birdRepo => _birdRepo;
+        public GenericRepository<Cage> CageRepo
+        {
+            get
+            {
+                if (this._cageRepo == null)
+                {
+                    this._cageRepo = new GenericRepository<Cage>(_context);
+                }
+                return _cageRepo;
+            }
+        }
 
-        public ICageRepository cageRepo => _cageRepo;
+        public GenericRepository<FeedingPlan> FeedingPlanRepo
+        {
+            get
+            {
+                if (this._feedingPlanRepo == null)
+                {
+                    this._feedingPlanRepo = new GenericRepository<FeedingPlan>(_context);
+                }
+                return _feedingPlanRepo;
+            }
+        }
 
-        public IFeedingPlanRepository feedingPlanRepo => _feedingPlanRepo;
+        public GenericRepository<Food> FoodRepo
+        {
+            get
+            {
+                if (this._foodRepo == null)
+                {
+                    this._foodRepo = new GenericRepository<Food>(_context);
+                }
+                return _foodRepo;
+            }
+        }
 
-        public IFoodRepository foodRepo => _foodRepo;
+        public GenericRepository<MealMenu> MealMenuRepo
+        {
+            get
+            {
+                if (this._mealMenuRepo == null)
+                {
+                    this._mealMenuRepo = new GenericRepository<MealMenu>(_context);
+                }
+                return _mealMenuRepo;
+            }
+        }
 
-        public IMealMenuRepository mealMenuRepo => _mealMenuRepo;
+        public GenericRepository<MenuDetail> MenuDetailRepo
+        {
+            get
+            {
+                if (this._menuDetailRepo == null)
+                {
+                    this._menuDetailRepo = new GenericRepository<MenuDetail>(_context);
+                }
+                return _menuDetailRepo;
+            }
+        }
+        public GenericRepository<PurchaseOrder> PurchaseOrderRepo
+        {
+            get
+            {
+                if (this._purchaseOrderRepo == null)
+                {
+                    this._purchaseOrderRepo = new GenericRepository<PurchaseOrder>(_context);
+                }
+                return _purchaseOrderRepo;
+            }
+        }
 
-        public IMenuDetailRepository menuDetailRepo => _menuDetailRepo;
+        public GenericRepository<PurchaseOrderDetail> PurchaseOrderDetailRepo
+        {
+            get
+            {
+                if (this._purchaseOrderDetailRepo == null)
+                {
+                    this._purchaseOrderDetailRepo = new GenericRepository<PurchaseOrderDetail>(_context);
+                }
+                return _purchaseOrderDetailRepo;
+            }
+        }
 
-        public IPurchaseOrderRepository PORepo => _PORepo;
+        public GenericRepository<PurchaseRequest> PurchaseRequestRepo
+        {
+            get
+            {
+                if (this._purchaseRequestRepo == null)
+                {
+                    this._purchaseRequestRepo = new GenericRepository<PurchaseRequest>(_context);
+                }
+                return _purchaseRequestRepo;
+            }
+        }
+        public GenericRepository<PurchaseRequestDetail> PurchaseRequestDetailRepo
+        {
+            get
+            {
+                if (this._purchaseRequestDetailRepo == null)
+                {
+                    this._purchaseRequestDetailRepo = new GenericRepository<PurchaseRequestDetail>(_context);
+                }
+                return _purchaseRequestDetailRepo;
+            }
+        }
+        public GenericRepository<Species> SpeciesRepo
+        {
+            get
+            {
+                if (this._speciesRepo == null)
+                {
+                    this._speciesRepo = new GenericRepository<Species>(_context);
+                }
+                return _speciesRepo;
+            }
+        }
 
-        public IPurchaseOrderDetailRepository PODRepo => _PODRepo;
+        public GenericRepository<Domain.Models.Base.Task> TaskRepo
+        {
+            get
+            {
+                if (this._taskRepo == null)
+                {
+                    this._taskRepo = new GenericRepository<Domain.Models.Base.Task>(_context);
+                }
+                return _taskRepo;
+            }
+        }
 
-        public IPurchaseRequestRepository PRRepo => PRRepo;
-
-        public IPurchaseRequestDetailRepository PRDRepo => _PRDRepo;
-
-        public ISpieceRepository spieceRepo => _spieceRepo;
-
-        public ITaskRepository taskRepo => _taskRepo;
-
-        public IUserRepository userRepo => _userRepo;
+        public GenericRepository<User> UserRepo
+        {
+            get
+            {
+                if (this._userRepo == null)
+                {
+                    this._userRepo = new GenericRepository<User>(_context);
+                }
+                return _userRepo;
+            }
+        }
 
         public async Task<int> SaveChangeAsync()
         {
             return await _context.SaveChangesAsync();
+        }
+
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

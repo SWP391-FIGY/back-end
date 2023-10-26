@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Models.Base
 {
-    public class Spiece
+    public class Species
     {
-        public int SpieceID { get; set; }
-        public string SpieceName { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
         public string Color { get; set; }
         public string Size { get; set; }
         public string Voice { get; set; }

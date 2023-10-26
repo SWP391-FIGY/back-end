@@ -15,6 +15,6 @@ namespace Domain.Models.Base
         public int BirdStatus { get; set; }
         public int MenuStatus { get; set; }
         public string NutritionalIngredients { get; set; }
-        public IList<Spiece> SpieceID { get; set; }
+        public IList<Species> SpieceID { get; set; }
     }
 }
