@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace Infracstructures.Interfaces
 {
     public interface ICageService
     {
-        public Task<string> GetCageByID(int id);
+        public Task<Cage> AddNewCage(Cage cage);
+        public Task<Cage> GetCageByID(int id);
+        public Task<IQueryable<Cage>> GetCageList();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace Application.Interfaces
 {
     public interface IBirdService
     {
+        public Task<string> AddNewBird(Bird bird);
         public Task<string> GetBirdByID(int id);
+        
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Infracstructures.Services
 {
-    public class SpeciesService : ISpieceService
+    public class SpeciesService : ISpeciesService
     {
         public Task<string> GetSpiceByID(int id)
         {
