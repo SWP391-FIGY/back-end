@@ -12,8 +12,8 @@ namespace Domain.Models.Base
         public string Date { get; set; }
         public string Detail { get; set; }
         public int CageID { get; set; }
-        public Cage? Cage { get; set; }
         public int BirdID { get; set; }
+        public Cage? Cage { get; set; }
         public Bird? Bird { get; set; }
     }
 }

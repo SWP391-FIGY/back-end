@@ -15,8 +15,8 @@ namespace Domain.Models.Base
         public int BirdStatus { get; set; }
         public string LastModifyDate { set; get; }
         public int SpieceID { get; set; }
-        public Species? Species { get; set; }
         public int CageID { get; set; }
+        public Species? Species { get; set; }
         public Cage? Cage { get; set; }
         public IList<Task>? Tasks { get; set; }
         public IList<FeedingPlan>? FeedingPlans { get; set; }

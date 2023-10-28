@@ -13,9 +13,9 @@ namespace Domain.Models.Base
         public int Unit { get; set; }
         public int NetPrice { get; set; }
         public string DeliverDate { get; set; }
-        public int POID { get; set; }
-        public PurchaseOrder? PurchaseOrder { get; set; }
+        public int PurchaseOrderID { get; set; }
         public int FoodID { get; set; }
+        public PurchaseOrder? PurchaseOrder { get; set; }
         public Food? Food { get; set; }
     }
 }

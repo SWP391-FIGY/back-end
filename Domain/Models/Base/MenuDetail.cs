@@ -11,6 +11,7 @@ namespace Domain.Models.Base
         public int ID { get; set; }
         public int Quantity { get; set; }
         public int MenuID { get; set; }
+        public int FoodID { get; set; }
         public MealMenu? MealMenu { get; set; }
         public Food? Food { get; set; }
     }

@@ -10,10 +10,10 @@ namespace Domain.Models.Base
     {
         public int ID { get; set; }
         public int ManagerID { get; set; }
-        public User? Manager { get; set; } 
         public string DateTime { set; get; }
         public int Status { get; set; }
         public int? PurchaseOrderID { get; set; }
+        public User? Manager { get; set; } 
         public PurchaseOrder? PurchaseOrder { get; set; }
         public IList<PurchaseRequestDetail>? PurchaseRequestDetails { get; set; }
     }

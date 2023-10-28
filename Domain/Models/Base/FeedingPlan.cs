@@ -13,8 +13,8 @@ namespace Domain.Models.Base
         public string FeedingStatus { set; get; }
         public string Notation { set; get; }
         public int BirdID { get; set; }
-        public Bird? Bird { get; set; }
         public int MenuID { get; set; }
+        public Bird? Bird { get; set; }
         public MealMenu? MealMenu { get; set; }
 
     }

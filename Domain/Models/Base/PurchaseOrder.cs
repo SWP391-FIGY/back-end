@@ -13,9 +13,9 @@ namespace Domain.Models.Base
         public string Note { get; set; }
         public int Status { get; set; }
         public int ManagerID { get; set; }
-        public User? Manager { get; set; }
         public int PRID { get; set;}
+        public User? Manager { get; set; }
         public PurchaseRequest? PurchaseRequest { get; set; }
-        public IList<PurchaseOrder>? purchaseOrders { get; set; }
+        public IList<PurchaseOrder>? PurchaseOrders { get; set; }
     }
 }
