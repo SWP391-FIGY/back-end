@@ -11,13 +11,9 @@ namespace Application.Services
 {
     public class BirdService : IBirdService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
 
-        public BirdService(IUnitOfWork unitOfWork, IMapper mapper)
+        public BirdService()
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
 
         public Task<string> AddNewBird(Bird bird)

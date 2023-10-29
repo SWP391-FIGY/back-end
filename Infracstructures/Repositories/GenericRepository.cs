@@ -1,4 +1,4 @@
-﻿using Application.Repositories;
+﻿
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infracstructures.Repositories
 {
-    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> where TEntity : class
     {
         AppDbContext _context;
         private DbSet<TEntity> dbSet;

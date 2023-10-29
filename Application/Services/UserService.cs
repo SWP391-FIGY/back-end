@@ -10,12 +10,9 @@ namespace Application.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
+        public UserService()
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            
         }
         
     }
