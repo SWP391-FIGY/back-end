@@ -13,7 +13,7 @@ namespace Domain.Models.Base
         public string Gender { set; get; }
         public string Notation { set; get;}
         public int BirdStatus { get; set; }
-        public string LastModifyDate { set; get; }
+        public DateTime LastModifyDate { set; get; }
         public int SpieceID { get; set; }
         public int CageID { get; set; }
         public Species? Species { get; set; }

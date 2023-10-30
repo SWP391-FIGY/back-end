@@ -48,5 +48,19 @@ namespace Infracstructures.Services
             return cage;
         }
         #endregion
+
+        #region Update Cage
+        public async Task<Cage> UpdateCage(int id, Cage cage)
+        {
+            var cageObj = await _unitOfWork.CageRepo.GetByIDAsync(id);
+            _unitOfWork.CageRepo.Update(cageObj);
+            var check = await _unitOfWork.SaveChangeAsync();
+            if (check == 0) 
+            {
+                throw new ArgumentException("Update failed!!!");
+            }
+            return cage;
+        }
+        #endregion
     }
 }

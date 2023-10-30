@@ -2,7 +2,9 @@
 using Domain.Models.Base;
 using Infracstructures.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace BirdFarmAPI.Controllers
 {
@@ -83,6 +85,32 @@ namespace BirdFarmAPI.Controllers
                 {
                     Status = BadRequest().StatusCode,
                     Message = "Not found",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
+
+        #region Get All Bird
+        [HttpGet]
+        [EnableQuery]
+        public async Task<IActionResult> GetBirdList()
+        {
+            try
+            {
+                var result = await _birdService.GetAllBird();
+                return Ok(result);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Internal server error",
                     Errors = ex.Message
                 });
             }

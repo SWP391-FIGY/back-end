@@ -12,5 +12,6 @@ namespace Infracstructures.Interfaces
         public Task<Bird> AddNewBird(Bird bird);
         public Task<Bird> GetBirdByID(int id);
         public Task<Bird> UpdateBird(Bird bird, int id);
+        public Task<IQueryable<Bird>> GetAllBird();
     }
 }
