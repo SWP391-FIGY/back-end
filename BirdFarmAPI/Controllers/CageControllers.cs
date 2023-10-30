@@ -7,17 +7,20 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace BirdFarmAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class CageControllers : ControllerBase
     {
         private readonly ICageService _cageService;
+        private readonly ICurrentTime _currenttime;
 
-        public CageControllers(ICageService cageService)
+        public CageControllers(ICageService cageService, ICurrentTime currenttime)
         {
             _cageService = cageService;
+            _currenttime = currenttime;
         }
 
+        #region AddNewCage
         [HttpPost]
         public async Task<IActionResult> AddNewCage(Cage cage)
         {
@@ -36,7 +39,9 @@ namespace BirdFarmAPI.Controllers
                 });
             }
         }
+        #endregion
 
+        #region Get Cage By ID
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCageByID(int id)
         {
@@ -64,6 +69,9 @@ namespace BirdFarmAPI.Controllers
                 });
             }
         }
+        #endregion
+
+        #region Get Cage List
         [HttpGet]
         public async Task<IActionResult> GetCageList()
         {
@@ -85,7 +93,8 @@ namespace BirdFarmAPI.Controllers
                     Errors = ex.Message
                 });
             }
-        } 
+        }
+        #endregion
 
     }
 }

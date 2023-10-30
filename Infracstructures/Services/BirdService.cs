@@ -21,6 +21,7 @@ namespace Infracstructures.Services
             _mapper = mapper;
         }
 
+        #region Add New Bird
         public async Task<Bird> AddNewBird(Bird bird)
         {
             await _unitOfWork.BirdRepo.Insert(bird);
@@ -29,7 +30,9 @@ namespace Infracstructures.Services
                 return bird;
             else throw new Exception("Add Bird failed!!!");
         }
+        #endregion
 
+        #region Update Bird
         public async Task<Bird> UpdateBird(Bird bird, int id)
         {
             var birdObj = await _unitOfWork.BirdRepo.GetByIDAsync(id);
@@ -38,7 +41,9 @@ namespace Infracstructures.Services
             _unitOfWork.BirdRepo.Update(birdObj);
             return birdObj;
         }
+        #endregion
 
+        #region Get Bird By ID
         public async Task<Bird> GetBirdByID(int id)
         {            
             if (id <= 0)
@@ -48,6 +53,7 @@ namespace Infracstructures.Services
             var bird = await _unitOfWork.BirdRepo.GetByIDAsync(id);
             return bird;
         }
+        #endregion
 
     }
 }

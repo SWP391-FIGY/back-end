@@ -12,7 +12,7 @@ namespace Domain.Models.Base
         public string DateTime { get; set; }
         public string Note { get; set; }
         public int Status { get; set; }
-        public int ManagerID { get; set; }
+        public int CreatorID { get; set; }
         public int PRID { get; set;}
         public User? Manager { get; set; }
         public PurchaseRequest? PurchaseRequest { get; set; }

@@ -14,6 +14,7 @@ namespace Infracstructures.Services
         private readonly UnitOfWork _unitOfWork = new UnitOfWork();
         private readonly IMapper _mapper;
 
+        #region AddNewCage
         public async Task<Cage> AddNewCage(Cage cage)
         {
             await _unitOfWork.CageRepo.Insert(cage);
@@ -22,7 +23,9 @@ namespace Infracstructures.Services
                 return cage;
             else throw new Exception("Add Cage failed!!!");
         }
+        #endregion
 
+        #region Get Cage By ID
         public async Task<Cage> GetCageByID(int id)
         {
             if (id <= 0)
@@ -32,7 +35,9 @@ namespace Infracstructures.Services
             var cage = await _unitOfWork.CageRepo.GetByIDAsync(id);
             return cage;
         }
+        #endregion
 
+        #region Get Cage List
         public async Task<IQueryable<Cage>> GetCageList()
         {
             var cage = _unitOfWork.CageRepo.Get();
@@ -42,5 +47,6 @@ namespace Infracstructures.Services
             }
             return cage;
         }
+        #endregion
     }
 }

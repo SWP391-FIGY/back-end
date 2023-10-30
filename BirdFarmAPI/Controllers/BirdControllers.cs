@@ -17,6 +17,7 @@ namespace BirdFarmAPI.Controllers
             _birdService = birdService;
         }
 
+        #region Add New Bird
         [HttpPost]
         public async Task<IActionResult> AddNewBird(Bird bird)
         {
@@ -35,7 +36,9 @@ namespace BirdFarmAPI.Controllers
                 });
             }
         }
+        #endregion
 
+        #region Update Bird
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBird(Bird bird, int Id)
         {
@@ -54,7 +57,9 @@ namespace BirdFarmAPI.Controllers
                 });
             }
         }
+        #endregion
 
+        #region Get Bird By ID
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBirdByID(int id)
         {
@@ -82,5 +87,6 @@ namespace BirdFarmAPI.Controllers
                 });
             }
         }
+        #endregion
     }
 }
