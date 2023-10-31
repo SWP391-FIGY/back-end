@@ -1,9 +1,6 @@
-﻿using Infracstructures.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using Domain.Models.Base;
+using Infracstructures.Interfaces;
 
 namespace Infracstructures.Services
 {
