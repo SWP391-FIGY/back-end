@@ -4,7 +4,7 @@ using Infracstructures.Repositories;
 
 namespace Infracstructures
 {
-    public class UnitOfWork : IDisposable
+    public class UnitOfWork : IDisposable, IUnitOfWork
     {
         private AppDbContext _context;
         private GenericRepository<Bird> _birdRepo;
@@ -22,8 +22,11 @@ namespace Infracstructures
         private GenericRepository<Domain.Models.Base.Task> _taskRepo;
         private GenericRepository<User> _userRepo;
         
-        
-        
+        public UnitOfWork(AppDbContext context)
+        {
+            _context = context;
+        }
+
         public GenericRepository<Bird> BirdRepo
         {
             get

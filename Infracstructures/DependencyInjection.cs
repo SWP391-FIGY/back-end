@@ -13,6 +13,7 @@ namespace Infracstructures
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(config.GetConnectionString("BirdFarmDB"))
             );
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();
             services.AddServiceDependency();
             return services;

@@ -12,12 +12,13 @@ namespace Infracstructures.Services
 {
     public class BirdService : IBirdService
     {
-        private readonly UnitOfWork _unitOfWork = new UnitOfWork();
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ICurrentTime _currentTime;
 
-        public BirdService(ICurrentTime currentTime)
+        public BirdService(ICurrentTime currentTime, IUnitOfWork unitOfWork)
         {
             _currentTime = currentTime;
+            _unitOfWork = unitOfWork;
         }
 
         #region Add New Bird
