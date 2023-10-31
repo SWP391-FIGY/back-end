@@ -9,8 +9,8 @@ namespace Domain.Models.Base
     public class Log
     {
         public int ID { get; set; }
-        public string Date { get; set; }
-        public string Detail { get; set; }
+        public DateTime Date { get; set; }
+        public string? Detail { get; set; }
         public int CageID { get; set; }
         public int BirdID { get; set; }
         public Cage? Cage { get; set; }

@@ -1,34 +1,32 @@
-﻿using Infracstructures.Interfaces;
+﻿using Application.ResponseModels;
 using Domain.Models.Base;
+using Infracstructures.Interfaces;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Application.ResponseModels;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 
 namespace BirdFarmAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class CageControllers : ControllerBase
+    public class FoodControllers : ControllerBase
     {
-        private readonly ICageService _cageService;
-        private readonly ICurrentTime _currenttime;
+        private readonly IFoodService _foodService;
 
-        public CageControllers(ICageService cageService, ICurrentTime currenttime)
+        public FoodControllers(IFoodService foodService)
         {
-            _cageService = cageService;
-            _currenttime = currenttime;
+            _foodService = foodService;
         }
 
-        #region AddNewCage
+        #region Add New Food
         [HttpPost]
-        public async Task<IActionResult> AddNewCage(Cage cage)
+        public async Task<IActionResult> AddNewFood(Food food)
         {
             try
             {
-                var cageObj = await _cageService.AddNewCage(cage);
-                return Ok(cageObj);
+                var foodObj = await _foodService.AddNewFood(food);
+                return Ok(foodObj);
             }
             catch (Exception ex)
             {
@@ -42,15 +40,14 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get Cage By ID
+        #region Get Food By ID
         [HttpGet("{id}")]
-        [EnableQuery]
-        public async Task<IActionResult> GetCageByID(int id)
+        public async Task<IActionResult> GetFoodByID(int id)
         {
             try
             {
-                var cage = await _cageService.GetCageByID(id);
-                return Ok(cage);
+                var food = await _foodService.GetFoodById(id);
+                return Ok(food);
             }
             catch (ArgumentException ex)
             {
@@ -73,15 +70,15 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get Cage List
+        #region Get Food List
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> GetCageList()
+        public async Task<IActionResult> GetFoodList()
         {
             try
             {
-                var cage = await _cageService.GetCageList();
-                return Ok(cage);
+                var food = await _foodService.GetFoodList();
+                return Ok(food);
             }
             catch (InvalidOperationException ex)
             {
@@ -99,13 +96,34 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Update Cage
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCage(int id, Cage cage)
+        #region Get Food By Name
+        [HttpGet("{name?}")]
+        [EnableQuery]
+        public async Task<IActionResult> GetFoodByName(string name)
         {
             try
             {
-                var result = await _cageService.UpdateCage(id, cage);
+                if (name == null)
+                {
+                    return await GetFoodList();
+                }
+                var result = await _foodService.GetFoodByName(name);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        #endregion
+
+        #region Update Food
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateFood(int id, Food food)
+        {
+            try
+            {
+                var result = await _foodService.UpdateFood(id, food);
                 return Ok(result);
             }
             catch (Exception ex)

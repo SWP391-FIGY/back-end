@@ -13,17 +13,17 @@ namespace Infracstructures.Services
     public class BirdService : IBirdService
     {
         private readonly UnitOfWork _unitOfWork = new UnitOfWork();
-        private readonly IMapper _mapper;
+        private readonly ICurrentTime _currentTime;
 
-        public BirdService(UnitOfWork unitOfWork, IMapper mapper)
+        public BirdService(ICurrentTime currentTime)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
+            _currentTime = currentTime;
         }
 
         #region Add New Bird
         public async Task<Bird> AddNewBird(Bird bird)
         {
+            bird.LastModifyDate = _currentTime.GetCurrentTime();
             await _unitOfWork.BirdRepo.Insert(bird);
 
             if (await _unitOfWork.SaveChangeAsync() > 0)
@@ -38,6 +38,7 @@ namespace Infracstructures.Services
             var birdObj = await _unitOfWork.BirdRepo.GetByIDAsync(id);
             if (birdObj == null) throw new Exception("Bird does not exist!!!");
 
+            bird.LastModifyDate = _currentTime.GetCurrentTime();
             _unitOfWork.BirdRepo.Update(birdObj);
             return birdObj;
         }
@@ -55,5 +56,15 @@ namespace Infracstructures.Services
         }
         #endregion
 
+        #region Get Bird List
+        public async Task<IQueryable<Bird>> GetAllBird()
+        {
+            var birdList = _unitOfWork.BirdRepo.Get();
+
+            if (birdList == null) throw new InvalidOperationException();
+
+            return birdList;
+        }
+        #endregion
     }
 }
