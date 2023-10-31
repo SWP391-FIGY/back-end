@@ -12,6 +12,7 @@ namespace Domain.Models.Base
         public string DoB { set; get; }
         public string Gender { set; get; }
         public string Notation { set; get;}
+        public string BirdImageUrl { set; get; }
         public int BirdStatus { get; set; }
         public DateTime LastModifyDate { set; get; }
         public int SpieceID { get; set; }
@@ -20,6 +21,6 @@ namespace Domain.Models.Base
         public Cage? Cage { get; set; }
         public IList<Task>? Tasks { get; set; }
         public IList<FeedingPlan>? FeedingPlans { get; set; }
-        public IList<Log>? logs { get; set; }
+        public IList<Log>? Logs { get; set; }
     }
 }

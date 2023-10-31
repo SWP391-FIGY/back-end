@@ -9,7 +9,7 @@ namespace Domain.Models.Base
     public class PurchaseOrder
     {
         public int ID { get; set; }
-        public string DateTime { get; set; }
+        public DateTime DateTime { get; set; }
         public string Note { get; set; }
         public int Status { get; set; }
         public int CreatorID { get; set; }

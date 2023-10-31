@@ -13,13 +13,10 @@ namespace Infracstructures.Services
     public class BirdService : IBirdService
     {
         private readonly UnitOfWork _unitOfWork = new UnitOfWork();
-        private readonly IMapper _mapper;
         private readonly ICurrentTime _currentTime;
 
-        public BirdService(UnitOfWork unitOfWork, IMapper mapper, ICurrentTime currentTime)
+        public BirdService(ICurrentTime currentTime)
         {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _currentTime = currentTime;
         }
 
