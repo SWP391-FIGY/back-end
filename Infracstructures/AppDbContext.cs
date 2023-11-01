@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Reflection.Metadata;
-using Task = Domain.Models.Base.Task;
+using Tasks = Domain.Models.Base.Tasks;
 
 namespace Infracstructures
 {
@@ -24,7 +24,7 @@ namespace Infracstructures
         public DbSet<PurchaseRequest> PurchaseRequest { get; set;}
         public DbSet<PurchaseRequestDetail> PurchaseRequestDetail { get; set ; }
         public DbSet<Species> Spiece { get; set; }
-        public DbSet<Task> Task { get; set; }
+        public DbSet<Tasks> Task { get; set; }
         public DbSet<User> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -40,12 +40,12 @@ namespace Infracstructures
                 .WithMany(e => e.Logs)
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder
-                .Entity<Task>()
+                .Entity<Tasks>()
                 .HasOne(e => e.Cage)
                 .WithMany(e => e.Tasks)
                 .OnDelete(DeleteBehavior.NoAction);
             modelBuilder
-                .Entity<Task>()
+                .Entity<Tasks>()
                 .HasOne(e => e.Bird)
                 .WithMany(e => e.Tasks)
                 .OnDelete(DeleteBehavior.NoAction);

@@ -9,10 +9,10 @@ namespace Infracstructures.Interfaces
 {
     public interface ISpeciesService
     {
-        Task<Species> CreateSpeciesAsync(Species species);
-        Task<Species> UpdateSpeciesAsync(int id, Species species);
-        Task<IQueryable<Species>> GetAllSpeciesAsync();
-        Task<Species> GetSpeciesByIDAsync(int id);
-        Task<IQueryable<Species>> GetSpeciesByNameAsync(string name);
+        Task<Species> CreateSpecies(Species species);
+        Task<Species> UpdateSpecies(int id, Species species);
+        Task<IQueryable<Species>> GetAllSpecies();
+        Task<Species> GetSpeciesByID(int id);
+        Task<IQueryable<Species>> GetSpeciesByName(string name);
     }
 }

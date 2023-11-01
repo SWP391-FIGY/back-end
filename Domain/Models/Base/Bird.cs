@@ -19,7 +19,7 @@ namespace Domain.Models.Base
         public int CageID { get; set; }
         public Species? Species { get; set; }
         public Cage? Cage { get; set; }
-        public IList<Task>? Tasks { get; set; }
+        public IList<Tasks>? Tasks { get; set; }
         public IList<FeedingPlan>? FeedingPlans { get; set; }
         public IList<Log>? Logs { get; set; }
     }
