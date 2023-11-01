@@ -18,8 +18,6 @@ namespace Infracstructures.Services
             _unitOfWork = unitOfWork;
         }
 
-
-
         #region AddNewCage
         public async Task<Cage> AddNewCage(Cage cage)
         {
@@ -65,7 +63,22 @@ namespace Infracstructures.Services
             {
                 throw new ArgumentException("Update failed!!!");
             }
-            return cage;
+            return cageObj;
+        }
+        #endregion
+
+        #region Delete Cage
+        public async Task<Cage> DeleteCage(int id)
+        {
+            var cage = await _unitOfWork.CageRepo.GetByIDAsync(id);
+            _unitOfWork.CageRepo.Delete(cage);
+            var check = await _unitOfWork.SaveChangeAsync();
+
+            if(check == 0)
+            {
+                throw new ArgumentException("Delete failed!!!");
+            }
+            return null;
         }
         #endregion
     }

@@ -10,22 +10,22 @@ namespace BirdFarmAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class BirdControllers : ControllerBase
+    public class MealMenuController : ControllerBase
     {
-        private readonly IBirdService _birdService;
+        private readonly IMealMenuService _mealMenuService;
 
-        public BirdControllers(IBirdService birdService)
+        public MealMenuController(IMealMenuService mealMenuService)
         {
-            _birdService = birdService;
+            _mealMenuService = mealMenuService;
         }
 
-        #region Add New Bird
+        #region Add New MealMenu
         [HttpPost]
-        public async Task<IActionResult> AddNewBird(Bird bird)
+        public async Task<IActionResult> AddNewMealMenu(MealMenu mealMenu)
         {
             try
             {
-                var result = await _birdService.AddNewBird(bird);
+                var result = await _mealMenuService.AddNewMealMenu(mealMenu);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -40,13 +40,13 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Update Bird
+        #region Update MealMenu
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBird(Bird bird, int Id)
+        public async Task<IActionResult> UpdateMealMenu(MealMenu mealMenu, int Id)
         {
             try
             {
-                var result = await _birdService.UpdateBird(bird, Id);
+                var result = await _mealMenuService.UpdateMealMenu(mealMenu, Id);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -61,13 +61,13 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get Bird By ID
+        #region Get MealMenu By ID
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBirdByID(int id)
+        public async Task<IActionResult> GetMealMenuByID(int id)
         {
             try
             {
-                var result = await _birdService.GetBirdByID(id);
+                var result = await _mealMenuService.GetMealMenuByID(id);
                 return Ok(result);
             }
             catch (ArgumentException ex)
@@ -91,14 +91,14 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get All Bird
+        #region Get All MealMenu
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> GetBirdList()
+        public async Task<IActionResult> GetMealMenuList()
         {
             try
             {
-                var result = await _birdService.GetAllBird();
+                var result = await _mealMenuService.GetAllMealMenu();
                 return Ok(result);
             }
             catch (InvalidOperationException ex)
@@ -111,27 +111,6 @@ namespace BirdFarmAPI.Controllers
                 {
                     Status = BadRequest().StatusCode,
                     Message = "Internal server error",
-                    Errors = ex.Message
-                });
-            }
-        }
-        #endregion
-
-        #region Delete Bird
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBird(int id)
-        {
-            try
-            {
-                var bird = await _birdService.DeleteBird(id);
-                return Ok(bird);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new BaseFailedResponseModel()
-                {
-                    Status = BadRequest().StatusCode,
-                    Message = "Update Failed",
                     Errors = ex.Message
                 });
             }

@@ -10,23 +10,23 @@ namespace BirdFarmAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class BirdControllers : ControllerBase
+    public class PurchaseRequestControllers : ControllerBase
     {
-        private readonly IBirdService _birdService;
+        private readonly IPurchaseRequestService _purchaseRequestService;
 
-        public BirdControllers(IBirdService birdService)
+        public PurchaseRequestControllers(IPurchaseRequestService purchaseRequestService)
         {
-            _birdService = birdService;
+            _purchaseRequestService = purchaseRequestService;
         }
 
-        #region Add New Bird
+        #region Create PurchaseRequest
         [HttpPost]
-        public async Task<IActionResult> AddNewBird(Bird bird)
+        public async Task<IActionResult> CreatePurchaseRequest(PurchaseRequest purchaseRequest)
         {
             try
             {
-                var result = await _birdService.AddNewBird(bird);
-                return Ok(result);
+                var pr = await _purchaseRequestService.CreatePurchaseRequest(purchaseRequest);
+                return Ok(pr);
             }
             catch (Exception ex)
             {
@@ -40,34 +40,13 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Update Bird
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBird(Bird bird, int Id)
-        {
-            try
-            {
-                var result = await _birdService.UpdateBird(bird, Id);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new BaseFailedResponseModel()
-                {
-                    Status = BadRequest().StatusCode,
-                    Message = "Update Failed",
-                    Errors = ex.Message
-                });
-            }
-        }
-        #endregion
-
-        #region Get Bird By ID
+        #region Get PurchaseRequest By ID
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBirdByID(int id)
+        public async Task<IActionResult> GetPurchaseRequestByID(int id)
         {
             try
             {
-                var result = await _birdService.GetBirdByID(id);
+                var result = await _purchaseRequestService.GetPurchaseRequestByID(id);
                 return Ok(result);
             }
             catch (ArgumentException ex)
@@ -91,15 +70,15 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get All Bird
+        #region Get All PurchaseRequest
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> GetBirdList()
+        public async Task<IActionResult> GetAllPurchaseRequest()
         {
             try
             {
-                var result = await _birdService.GetAllBird();
-                return Ok(result);
+                var prList = await _purchaseRequestService.GetAllPurchaseRequest();
+                return Ok(prList);
             }
             catch (InvalidOperationException ex)
             {
@@ -117,14 +96,14 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Delete Bird
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBird(int id)
+        #region Update PurchaseRequest
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePurchaseRequest(int id, PurchaseRequest purchaseRequest)
         {
             try
             {
-                var bird = await _birdService.DeleteBird(id);
-                return Ok(bird);
+                var result = await _purchaseRequestService.UpdatePurchaseRequest(id, purchaseRequest);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -132,6 +111,27 @@ namespace BirdFarmAPI.Controllers
                 {
                     Status = BadRequest().StatusCode,
                     Message = "Update Failed",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
+
+        #region Delete PurchaseRequest
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePurchaseRequest(int id)
+        {
+            try
+            {
+                var result = await _purchaseRequestService.DeletePurchaseRequest(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Delete Failed",
                     Errors = ex.Message
                 });
             }

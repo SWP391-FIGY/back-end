@@ -15,7 +15,7 @@ namespace Domain.Models.Base
         public string PhoneNumber { get; set; }
         public int Role { get; set; }
         public int Status { get; set; }
-        public IList<Task>? Tasks { get; set; }
+        public IList<Tasks>? Tasks { get; set; }
         public IList<PurchaseOrder>? PurchaseOrders { get; set; }
         public IList<PurchaseRequest>? PurchaseRequests { get; set; }
     }

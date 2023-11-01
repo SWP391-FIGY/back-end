@@ -8,24 +8,24 @@ using Microsoft.AspNetCore.OData.Query;
 
 namespace BirdFarmAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller/[action]")]
     [ApiController]
-    public class BirdControllers : ControllerBase
+    public class FeedingPlanController : ControllerBase
     {
-        private readonly IBirdService _birdService;
+        private readonly IFeedingPlanService _feedingPlanService;
 
-        public BirdControllers(IBirdService birdService)
+        public FeedingPlanController(IFeedingPlanService feedingPlanService)
         {
-            _birdService = birdService;
+            _feedingPlanService = feedingPlanService;
         }
 
-        #region Add New Bird
+        #region Add New Feeding Plan
         [HttpPost]
-        public async Task<IActionResult> AddNewBird(Bird bird)
+        public async Task<IActionResult> AddNewFeedingPlan(FeedingPlan feedingPlan)
         {
             try
             {
-                var result = await _birdService.AddNewBird(bird);
+                var result = await _feedingPlanService.AddNewFeedingPlan(feedingPlan);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -40,13 +40,13 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Update Bird
+        #region Update Feeding Plan
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBird(Bird bird, int Id)
+        public async Task<IActionResult> UpdateFeedingPlan(FeedingPlan feedingPlan, int Id)
         {
             try
             {
-                var result = await _birdService.UpdateBird(bird, Id);
+                var result = await _feedingPlanService.UpdateTask(feedingPlan, Id);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -61,13 +61,13 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get Bird By ID
+        #region Get Feeding Plan By ID
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBirdByID(int id)
+        public async Task<IActionResult> GetFeedingPlanByID(int id)
         {
             try
             {
-                var result = await _birdService.GetBirdByID(id);
+                var result = await _feedingPlanService.GetFeedingPlanByID(id);
                 return Ok(result);
             }
             catch (ArgumentException ex)
@@ -91,14 +91,14 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get All Bird
+        #region Get All Feeding Plan
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> GetBirdList()
+        public async Task<IActionResult> GetFeedingPlanList()
         {
             try
             {
-                var result = await _birdService.GetAllBird();
+                var result = await _feedingPlanService.GetAllFeedingPlan();
                 return Ok(result);
             }
             catch (InvalidOperationException ex)
@@ -111,27 +111,6 @@ namespace BirdFarmAPI.Controllers
                 {
                     Status = BadRequest().StatusCode,
                     Message = "Internal server error",
-                    Errors = ex.Message
-                });
-            }
-        }
-        #endregion
-
-        #region Delete Bird
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBird(int id)
-        {
-            try
-            {
-                var bird = await _birdService.DeleteBird(id);
-                return Ok(bird);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new BaseFailedResponseModel()
-                {
-                    Status = BadRequest().StatusCode,
-                    Message = "Update Failed",
                     Errors = ex.Message
                 });
             }

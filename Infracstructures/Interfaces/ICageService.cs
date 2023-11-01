@@ -13,5 +13,6 @@ namespace Infracstructures.Interfaces
         public Task<Cage> GetCageByID(int id);
         public Task<IQueryable<Cage>> GetCageList();
         public Task<Cage> UpdateCage(int id, Cage cage);
+        public Task<Cage> DeleteCage(int id);
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace BirdFarmAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class SpeciesController : ControllerBase
     {
@@ -30,14 +30,9 @@ namespace BirdFarmAPI.Controllers
                         Status = BadRequest().StatusCode,
                         Message = "Name is null!!!"
                     });
-                var result = await _speciesService.CreateSpeciesAsync(species);
+                var result = await _speciesService.CreateSpecies(species);
 
-                return Ok(new BaseResponseModel
-                {
-                    Status = Ok().StatusCode,
-                    Message = "Create Succeed",
-                    Result = "Success"
-                });
+                return Ok(result);
             }
             catch (ArgumentException ex)
             {
@@ -66,13 +61,8 @@ namespace BirdFarmAPI.Controllers
         {
             try
             {
-                var result = await _speciesService.UpdateSpeciesAsync(id, species);
-                return Ok(new BaseResponseModel
-                {
-                    Status = Ok().StatusCode,
-                    Message = "Update Succeeded",
-                    Result = result
-                });
+                var result = await _speciesService.UpdateSpecies(id, species);
+                return Ok(result);
             }
             catch (Exception ex)
             {
@@ -92,9 +82,9 @@ namespace BirdFarmAPI.Controllers
         {
             try
             {
-                var exs = await _speciesService.GetAllSpeciesAsync();
+                var species = await _speciesService.GetAllSpecies();
 
-                return Ok(exs);
+                return Ok(species);
             }
             catch (InvalidOperationException ex)
             {
@@ -118,7 +108,7 @@ namespace BirdFarmAPI.Controllers
         {
             try
             {
-                var result = await _speciesService.GetSpeciesByIDAsync(id);
+                var result = await _speciesService.GetSpeciesByID(id);
                 return Ok(result);
             }
             catch (ArgumentException ex)
@@ -142,9 +132,9 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get Exercise By Name
-        [HttpGet("{name?}")]
-        public async Task<IActionResult> GetSpeciesByName(string? name)
+        #region Get Species By Name
+        [HttpGet("{name}")]
+        public async Task<IActionResult> GetSpeciesByName(string name)
         {
             try
             {
@@ -153,13 +143,8 @@ namespace BirdFarmAPI.Controllers
                     return await GetAllSpeciesAsync();
                 }
 
-                var result = await _speciesService.GetSpeciesByNameAsync(name);
-                return Ok(new BaseResponseModel()
-                {
-                    Status = Ok().StatusCode,
-                    Message = "Get by name succeed",
-                    Result = result
-                });
+                var result = await _speciesService.GetSpeciesByName(name);
+                return Ok(result);
             }
             catch (Exception ex)
             {

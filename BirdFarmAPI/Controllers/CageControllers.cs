@@ -119,5 +119,26 @@ namespace BirdFarmAPI.Controllers
             }
         }
         #endregion
+
+        #region Delete Cage
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFood(int id)
+        {
+            try
+            {
+                var result = await _cageService.DeleteCage(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Delete Failed",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
     }
 }

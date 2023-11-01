@@ -21,7 +21,7 @@ namespace Infracstructures.Services
         }
 
         #region Create Species
-        public async Task<Species> CreateSpeciesAsync(Species species)
+        public async Task<Species> CreateSpecies(Species species)
         {
             var checkname = _unitOfWork.SpeciesRepo.Get();
             if (checkname?.FirstOrDefault(x => x.Name.Equals(species.Name,
@@ -37,7 +37,7 @@ namespace Infracstructures.Services
         #endregion
 
         #region Get All Species
-        public async Task<IQueryable<Species>> GetAllSpeciesAsync()
+        public async Task<IQueryable<Species>> GetAllSpecies()
         {
             var speciesList = _unitOfWork.SpeciesRepo.Get();
 
@@ -50,7 +50,7 @@ namespace Infracstructures.Services
         #endregion
 
         #region Update Species
-        public async Task<Species> UpdateSpeciesAsync(int id, Species species)
+        public async Task<Species> UpdateSpecies(int id, Species species)
         {
             var exObj = await _unitOfWork.SpeciesRepo.GetByIDAsync(id);
             _unitOfWork.SpeciesRepo.Update(species);
@@ -65,7 +65,7 @@ namespace Infracstructures.Services
         #endregion
 
         #region Get Species By ID
-        public async Task<Species> GetSpeciesByIDAsync(int id)
+        public async Task<Species> GetSpeciesByID(int id)
         {
             if (id <= 0)
             {
@@ -78,7 +78,7 @@ namespace Infracstructures.Services
         #endregion
 
         #region Get Species By Name
-        public async Task<IQueryable<Species>> GetSpeciesByNameAsync(string name)
+        public async Task<IQueryable<Species>> GetSpeciesByName(string name)
         {
             var exList = _unitOfWork.SpeciesRepo.Get();
             var exListName = exList.Where(x => x.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
