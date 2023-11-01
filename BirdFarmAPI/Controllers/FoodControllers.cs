@@ -139,7 +139,7 @@ namespace BirdFarmAPI.Controllers
         #endregion
 
         #region Delete Food
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFood(int id)
         {
             try

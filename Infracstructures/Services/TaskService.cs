@@ -9,7 +9,7 @@ namespace Infracstructures.Services
 {
     public class TaskService : ITaskService
     {
-        private readonly UnitOfWork _unitOfWork = new UnitOfWork();
+        private readonly IUnitOfWork _unitOfWork;
        
         #region Add New Task
         public async Task<Tasks> AddNewTask(Tasks task)

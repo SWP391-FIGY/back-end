@@ -18,8 +18,6 @@ namespace Infracstructures.Services
             _unitOfWork = unitOfWork;
         }
 
-
-
         #region AddNewCage
         public async Task<Cage> AddNewCage(Cage cage)
         {

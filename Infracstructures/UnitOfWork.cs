@@ -19,7 +19,7 @@ namespace Infracstructures
         private GenericRepository<PurchaseRequest> _purchaseRequestRepo;
         private GenericRepository<PurchaseRequestDetail> _purchaseRequestDetailRepo;
         private GenericRepository<Species> _speciesRepo;
-        private GenericRepository<Domain.Models.Base.Tasks> _taskRepo;
+        private GenericRepository<Tasks> _taskRepo;
         private GenericRepository<User> _userRepo;
         
         public UnitOfWork(AppDbContext context)

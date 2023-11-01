@@ -13,7 +13,7 @@ namespace Infracstructures.Services
 {
     public class SpeciesService : ISpeciesService
     {
-        private readonly UnitOfWork _unitOfWork = new UnitOfWork();
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
         public SpeciesService(UnitOfWork unitOfWork, IMapper mapper)

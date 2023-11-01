@@ -121,7 +121,7 @@ namespace BirdFarmAPI.Controllers
         #endregion
 
         #region Delete Cage
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFood(int id)
         {
             try
