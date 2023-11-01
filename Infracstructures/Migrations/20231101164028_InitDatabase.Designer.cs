@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infracstructures.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231031032403_InitDatabase")]
+    [Migration("20231101164028_InitDatabase")]
     partial class InitDatabase
     {
         /// <inheritdoc />
@@ -183,7 +183,7 @@ namespace Infracstructures.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("BirdID")
+                    b.Property<int?>("BirdID")
                         .HasColumnType("int");
 
                     b.Property<int>("CageID")
@@ -192,7 +192,7 @@ namespace Infracstructures.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Detail")
+                    b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -516,8 +516,9 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
@@ -569,8 +570,7 @@ namespace Infracstructures.Migrations
                     b.HasOne("Domain.Models.Base.Bird", "Bird")
                         .WithMany("Logs")
                         .HasForeignKey("BirdID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Domain.Models.Base.Cage", "Cage")
                         .WithMany("Logs")
