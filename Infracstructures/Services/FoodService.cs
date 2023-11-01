@@ -10,7 +10,12 @@ namespace Infracstructures.Services
 {
     public class FoodService : IFoodService
     {
-        private readonly UnitOfWork _unitOfWork = new UnitOfWork();
+        private readonly IUnitOfWork _unitOfWork;
+        public FoodService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
 
         #region Add New Food
         public async Task<Food> AddNewFood(Food food)
