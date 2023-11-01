@@ -14,5 +14,6 @@ namespace Infracstructures.Interfaces
         public Task<Food> GetFoodById(int id);
         public Task<IQueryable<Food>> GetFoodByName(string name);
         public Task<Food> UpdateFood(int id, Food food);
+        public Task<Food> DeleteFood(int id);
     }
 }

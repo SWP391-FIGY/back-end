@@ -65,7 +65,22 @@ namespace Infracstructures.Services
             {
                 throw new ArgumentException("Update failed!!!");
             }
-            return food;
+            return foodObj;
+        }
+        #endregion
+
+        #region Delete Food
+        public async Task<Food> DeleteFood(int id)
+        {
+            var foodObj = await _unitOfWork.FoodRepo.GetByIDAsync(id);
+            _unitOfWork.FoodRepo.Delete(foodObj);
+
+            var check = await _unitOfWork.SaveChangeAsync();
+            if (check == 0)
+            {
+                throw new ArgumentException("Food was not deleted!!!");
+            }
+            return null;
         }
         #endregion
     }

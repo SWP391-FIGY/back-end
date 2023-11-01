@@ -43,6 +43,7 @@ namespace Infracstructures.Services
 
             bird.LastModifyDate = _currentTime.GetCurrentTime();
             _unitOfWork.BirdRepo.Update(birdObj);
+            await _unitOfWork.SaveChangeAsync();
             return birdObj;
         }
         #endregion
@@ -67,6 +68,20 @@ namespace Infracstructures.Services
             if (birdList == null) throw new InvalidOperationException();
 
             return birdList;
+        }
+        #endregion
+
+        #region Delete Bird
+        public async Task<Bird> DeleteBird(int id)
+        {
+            var bird = await _unitOfWork.BirdRepo.GetByIDAsync(id);
+            _unitOfWork.BirdRepo.Delete(bird);
+            var check = await _unitOfWork.SaveChangeAsync();
+            if (check == 0)
+            {
+                throw new ArgumentException("Delete Failed!!!");
+            }
+            return null;
         }
         #endregion
     }
