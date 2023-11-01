@@ -11,8 +11,14 @@ namespace Infracstructures.Services
 {
     public class CageService : ICageService
     {
-        private readonly UnitOfWork _unitOfWork = new UnitOfWork();
-        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CageService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+
 
         #region AddNewCage
         public async Task<Cage> AddNewCage(Cage cage)

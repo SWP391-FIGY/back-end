@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Models.Base
 {
-    public class Task
+    public class Tasks
     {
         public int ID { get; set; }
         public string TaskName { get; set; }

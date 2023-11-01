@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Infracstructures.Services;
 using Infracstructures.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infracstructures
 {
@@ -9,10 +10,15 @@ namespace Infracstructures
     {
         public static IServiceCollection AddInfractstructure(this IServiceCollection services, IConfiguration config)
         {
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(config.GetConnectionString("BirdFarmDB"))
+            );
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<ICurrentTime, CurrentTime>();
             services.AddServiceDependency();
             return services;
         }
-        
+
         private static IServiceCollection AddServiceDependency(this IServiceCollection services)
         {
             services.AddScoped<IBirdService, BirdService>();

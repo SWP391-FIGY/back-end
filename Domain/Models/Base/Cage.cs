@@ -16,7 +16,7 @@ namespace Domain.Models.Base
         public int CageStatus { set; get; }
         public int Capacity { get; set; }
         public IList<Bird>? Birds { get; set; }
-        public IList<Task>? Tasks { get; set; }
+        public IList<Tasks>? Tasks { get; set; }
         public IList<Log>? Logs { get; set; }
     }
 }
