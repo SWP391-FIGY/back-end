@@ -120,20 +120,24 @@ namespace BirdFarmAPI.Controllers
         #endregion
 
         #region Delete MealMenu
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMealMenu(int id)
         {
-            var mealMenu = await _mealMenuService.GetMealMenuByID(id);
-            if (mealMenu == null)
+            try
             {
-                return NotFound();
+                var mealMenu = await _mealMenuService.DeleteMealMenu(id);
+                return Ok(mealMenu);
             }
-            return BadRequest(new BaseFailedResponseModel()
+            catch (Exception ex)
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Failed",
-            });
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Update Failed",
+                    Errors = ex.Message
+                });
+            }
         }
         #endregion
-
     }
 }

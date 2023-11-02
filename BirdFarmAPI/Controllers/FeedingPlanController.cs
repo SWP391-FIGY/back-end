@@ -117,5 +117,26 @@ namespace BirdFarmAPI.Controllers
             }
         }
         #endregion
+
+        #region Delete Feeding Plan
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFeedingPlan(int id)
+        {
+            try
+            {
+                var feedingPlan = await _feedingPlanService.DeleteFeedingPlan(id);
+                return Ok(feedingPlan);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Update Failed",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
     }
 }

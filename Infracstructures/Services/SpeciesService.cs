@@ -86,5 +86,19 @@ namespace Infracstructures.Services
             return exListName;
         }
         #endregion
+
+        #region Delete Species
+        public async Task<Species> DeleteSpecies(int id)
+        {
+            var species = await _unitOfWork.SpeciesRepo.GetByIDAsync(id);
+            _unitOfWork.SpeciesRepo.Delete(species);
+            var check = await _unitOfWork.SaveChangeAsync();
+            if (check == 0)
+            {
+                throw new ArgumentException("Delete Failed!!!");
+            }
+            return null;
+        }
+        #endregion
     }
 }
