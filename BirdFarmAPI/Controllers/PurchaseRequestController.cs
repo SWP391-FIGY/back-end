@@ -10,24 +10,23 @@ namespace BirdFarmAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MealMenuController : ControllerBase
+    public class PurchaseRequestController : ControllerBase
     {
-        private readonly IMealMenuService _mealMenuService;
+        private readonly IPurchaseRequestService _purchaseRequestService;
 
-        public MealMenuController(IMealMenuService mealMenuService)
+        public PurchaseRequestController(IPurchaseRequestService purchaseRequestService)
         {
-            _mealMenuService = mealMenuService;
+            _purchaseRequestService = purchaseRequestService;
         }
-        
 
-        #region Add New MealMenu
+        #region Create PurchaseRequest
         [HttpPost]
-        public async Task<IActionResult> AddNewMealMenu(MealMenu mealMenu)
+        public async Task<IActionResult> CreatePurchaseRequest(PurchaseRequest purchaseRequest)
         {
             try
             {
-                var result = await _mealMenuService.AddNewMealMenu(mealMenu);
-                return Ok(result);
+                var pr = await _purchaseRequestService.CreatePurchaseRequest(purchaseRequest);
+                return Ok(pr);
             }
             catch (Exception ex)
             {
@@ -41,35 +40,14 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Update MealMenu
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMealMenu(MealMenu mealMenu, int Id)
-        {
-            try
-            {
-                var result = await _mealMenuService.UpdateMealMenu(mealMenu, Id);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new BaseFailedResponseModel()
-                {
-                    Status = BadRequest().StatusCode,
-                    Message = "Update Failed",
-                    Errors = ex.Message
-                });
-            }
-        }
-        #endregion
-
-        #region Get MealMenu By ID
+        #region Get PurchaseRequest By ID
         [HttpGet("{id}")]
         [EnableQuery]
         public async Task<IActionResult> GetByID(int id)
         {
             try
             {
-                var result = await _mealMenuService.GetMealMenuByID(id);
+                var result = await _purchaseRequestService.GetPurchaseRequestByID(id);
                 return Ok(result);
             }
             catch (ArgumentException ex)
@@ -93,15 +71,15 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get All MealMenu
+        #region Get All PurchaseRequest
         [HttpGet]
         [EnableQuery]
         public async Task<IActionResult> Get()
         {
             try
             {
-                var result = await _mealMenuService.GetAllMealMenu();
-                return Ok(result);
+                var prList = await _purchaseRequestService.GetAllPurchaseRequest();
+                return Ok(prList);
             }
             catch (InvalidOperationException ex)
             {
@@ -119,21 +97,46 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Delete MealMenu
-        public async Task<IActionResult> DeleteMealMenu(int id)
+        #region Update PurchaseRequest
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePurchaseRequest(int id, PurchaseRequest purchaseRequest)
         {
-            var mealMenu = await _mealMenuService.GetMealMenuByID(id);
-            if (mealMenu == null)
+            try
             {
-                return NotFound();
+                var result = await _purchaseRequestService.UpdatePurchaseRequest(id, purchaseRequest);
+                return Ok(result);
             }
-            return BadRequest(new BaseFailedResponseModel()
+            catch (Exception ex)
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Failed",
-            });
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Update Failed",
+                    Errors = ex.Message
+                });
+            }
         }
         #endregion
 
+        #region Delete PurchaseRequest
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePurchaseRequest(int id)
+        {
+            try
+            {
+                var result = await _purchaseRequestService.DeletePurchaseRequest(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Delete Failed",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
     }
 }

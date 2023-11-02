@@ -10,24 +10,23 @@ namespace BirdFarmAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MealMenuController : ControllerBase
+    public class FoodController : ControllerBase
     {
-        private readonly IMealMenuService _mealMenuService;
+        private readonly IFoodService _foodService;
 
-        public MealMenuController(IMealMenuService mealMenuService)
+        public FoodController(IFoodService foodService)
         {
-            _mealMenuService = mealMenuService;
+            _foodService = foodService;
         }
-        
 
-        #region Add New MealMenu
+        #region Add New Food
         [HttpPost]
-        public async Task<IActionResult> AddNewMealMenu(MealMenu mealMenu)
+        public async Task<IActionResult> AddNewFood(Food food)
         {
             try
             {
-                var result = await _mealMenuService.AddNewMealMenu(mealMenu);
-                return Ok(result);
+                var foodObj = await _foodService.AddNewFood(food);
+                return Ok(foodObj);
             }
             catch (Exception ex)
             {
@@ -41,36 +40,15 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Update MealMenu
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMealMenu(MealMenu mealMenu, int Id)
-        {
-            try
-            {
-                var result = await _mealMenuService.UpdateMealMenu(mealMenu, Id);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new BaseFailedResponseModel()
-                {
-                    Status = BadRequest().StatusCode,
-                    Message = "Update Failed",
-                    Errors = ex.Message
-                });
-            }
-        }
-        #endregion
-
-        #region Get MealMenu By ID
+        #region Get Food By ID
         [HttpGet("{id}")]
         [EnableQuery]
         public async Task<IActionResult> GetByID(int id)
         {
             try
             {
-                var result = await _mealMenuService.GetMealMenuByID(id);
-                return Ok(result);
+                var food = await _foodService.GetFoodById(id);
+                return Ok(food);
             }
             catch (ArgumentException ex)
             {
@@ -93,15 +71,15 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get All MealMenu
+        #region Get Food List
         [HttpGet]
         [EnableQuery]
         public async Task<IActionResult> Get()
         {
             try
             {
-                var result = await _mealMenuService.GetAllMealMenu();
-                return Ok(result);
+                var food = await _foodService.GetFoodList();
+                return Ok(food);
             }
             catch (InvalidOperationException ex)
             {
@@ -119,21 +97,46 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Delete MealMenu
-        public async Task<IActionResult> DeleteMealMenu(int id)
+        #region Update Food
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateFood(int id, Food food)
         {
-            var mealMenu = await _mealMenuService.GetMealMenuByID(id);
-            if (mealMenu == null)
+            try
             {
-                return NotFound();
+                var result = await _foodService.UpdateFood(id, food);
+                return Ok(result);
             }
-            return BadRequest(new BaseFailedResponseModel()
+            catch (Exception ex)
             {
-                Status = BadRequest().StatusCode,
-                Message = "Delete Failed",
-            });
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Update Failed",
+                    Errors = ex.Message
+                });
+            }
         }
         #endregion
 
+        #region Delete Food
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFood(int id)
+        {
+            try
+            {
+                var result = await _foodService.DeleteFood(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Delete Failed",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
     }
 }

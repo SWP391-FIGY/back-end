@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.OData.Query;
 
 namespace BirdFarmAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class BirdControllers : ControllerBase
+    public class BirdController : ControllerBase
     {
         private readonly IBirdService _birdService;
 
-        public BirdControllers(IBirdService birdService)
+        public BirdController(IBirdService birdService)
         {
             _birdService = birdService;
         }
@@ -63,7 +63,8 @@ namespace BirdFarmAPI.Controllers
 
         #region Get Bird By ID
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBirdByID(int id)
+        [EnableQuery]
+        public async Task<IActionResult> GetByID(int id)
         {
             try
             {
@@ -94,7 +95,7 @@ namespace BirdFarmAPI.Controllers
         #region Get All Bird
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> GetBirdList()
+        public async Task<IActionResult> Get()
         {
             try
             {
@@ -111,6 +112,27 @@ namespace BirdFarmAPI.Controllers
                 {
                     Status = BadRequest().StatusCode,
                     Message = "Internal server error",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
+
+        #region Delete Bird
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBird(int id)
+        {
+            try
+            {
+                var bird = await _birdService.DeleteBird(id);
+                return Ok(bird);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Update Failed",
                     Errors = ex.Message
                 });
             }

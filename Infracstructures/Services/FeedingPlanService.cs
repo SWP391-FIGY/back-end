@@ -10,7 +10,7 @@ namespace Infracstructures.Services
 {
     public class FeedingPlanService : IFeedingPlanService
     {
-        private readonly UnitOfWork _unitOfWork = new UnitOfWork();
+        private readonly IUnitOfWork _unitOfWork;
 
         #region Add New FeedingPlan
         public async Task<FeedingPlan> AddNewFeedingPlan(FeedingPlan feedingPlan)

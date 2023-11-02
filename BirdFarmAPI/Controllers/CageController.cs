@@ -8,14 +8,14 @@ using Microsoft.AspNetCore.OData.Query;
 
 namespace BirdFarmAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class CageControllers : ControllerBase
+    public class CageController : ControllerBase
     {
         private readonly ICageService _cageService;
         private readonly ICurrentTime _currenttime;
 
-        public CageControllers(ICageService cageService, ICurrentTime currenttime)
+        public CageController(ICageService cageService, ICurrentTime currenttime)
         {
             _cageService = cageService;
             _currenttime = currenttime;
@@ -45,7 +45,7 @@ namespace BirdFarmAPI.Controllers
         #region Get Cage By ID
         [HttpGet("{id}")]
         [EnableQuery]
-        public async Task<IActionResult> GetCageByID(int id)
+        public async Task<IActionResult> GetByID(int id)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace BirdFarmAPI.Controllers
         #region Get Cage List
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> GetCageList()
+        public async Task<IActionResult> Get()
         {
             try
             {
@@ -114,6 +114,27 @@ namespace BirdFarmAPI.Controllers
                 {
                     Status = BadRequest().StatusCode,
                     Message = "Update Failed",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
+
+        #region Delete Cage
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteFood(int id)
+        {
+            try
+            {
+                var result = await _cageService.DeleteCage(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Delete Failed",
                     Errors = ex.Message
                 });
             }

@@ -8,25 +8,20 @@ using Microsoft.AspNetCore.OData.Query;
 
 namespace BirdFarmAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class FoodControllers : ControllerBase
+    public class PurchaseOrderController : ControllerBase
     {
-        private readonly IFoodService _foodService;
+        private readonly IPurchaseOrderService _purchaseOrderService;
 
-        public FoodControllers(IFoodService foodService)
-        {
-            _foodService = foodService;
-        }
-
-        #region Add New Food
+        #region Create Purchase Order
         [HttpPost]
-        public async Task<IActionResult> AddNewFood(Food food)
+        public async Task<IActionResult> CreatePurchaseOrder(PurchaseOrder purchaseOrder)
         {
             try
             {
-                var foodObj = await _foodService.AddNewFood(food);
-                return Ok(foodObj);
+                var poObj = await _purchaseOrderService.CreatePurchaseOrder(purchaseOrder);
+                return Ok(poObj);
             }
             catch (Exception ex)
             {
@@ -40,14 +35,15 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get Food By ID
+        #region Get PurchaseOrder By ID
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetFoodByID(int id)
+        [EnableQuery]
+        public async Task<IActionResult> GetByID(int id)
         {
             try
             {
-                var food = await _foodService.GetFoodById(id);
-                return Ok(food);
+                var po = await _purchaseOrderService.GetPurchaseOrderByID(id);
+                return Ok(po);
             }
             catch (ArgumentException ex)
             {
@@ -70,15 +66,15 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get Food List
+        #region Get All Purchase Order
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> GetFoodList()
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var food = await _foodService.GetFoodList();
-                return Ok(food);
+                var poList = await _purchaseOrderService.GetAllPurchaseOrder();
+                return Ok(poList);
             }
             catch (InvalidOperationException ex)
             {
@@ -96,34 +92,13 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get Food By Name
-        [HttpGet("{name?}")]
-        [EnableQuery]
-        public async Task<IActionResult> GetFoodByName(string name)
-        {
-            try
-            {
-                if (name == null)
-                {
-                    return await GetFoodList();
-                }
-                var result = await _foodService.GetFoodByName(name);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        #endregion
-
-        #region Update Food
+        #region Update PurchaseOrder
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateFood(int id, Food food)
+        public async Task<IActionResult> UpdatePurchaseOrder(int id, PurchaseOrder po)
         {
             try
             {
-                var result = await _foodService.UpdateFood(id, food);
+                var result = await _purchaseOrderService.UpdatePurchaseOrder(id, po);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -132,6 +107,27 @@ namespace BirdFarmAPI.Controllers
                 {
                     Status = BadRequest().StatusCode,
                     Message = "Update Failed",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
+
+        #region Delete Purchase Order
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePurchaseOrder(int id)
+        {
+            try
+            {
+                var result = await _purchaseOrderService.DeletePurchaseOrder(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Delete Failed",
                     Errors = ex.Message
                 });
             }

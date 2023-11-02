@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    public class UserService : IUserService
+    public class UserService
     {
         public UserService()
         {

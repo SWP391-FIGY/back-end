@@ -22,7 +22,8 @@ namespace Infracstructures
         GenericRepository<PurchaseRequest> PurchaseRequestRepo { get; }
         GenericRepository<PurchaseRequestDetail> PurchaseRequestDetailRepo { get; }
         GenericRepository<Species> SpeciesRepo { get; }
-        GenericRepository<Domain.Models.Base.Task> TaskRepo { get; }
+        GenericRepository<User> UserRepo { get; }
+        GenericRepository<Tasks> TaskRepo { get; }
         Task<int> SaveChangeAsync();
     }
 }

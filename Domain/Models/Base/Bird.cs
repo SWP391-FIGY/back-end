@@ -15,7 +15,7 @@ namespace Domain.Models.Base
         public string BirdImageUrl { set; get; }
         public int BirdStatus { get; set; }
         public DateTime LastModifyDate { set; get; }
-        public int SpieceID { get; set; }
+        public int SpeciesId { get; set; }
         public int CageID { get; set; }
         public Species? Species { get; set; }
         public Cage? Cage { get; set; }

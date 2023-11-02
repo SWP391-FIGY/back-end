@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infracstructures.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231031032403_InitDatabase")]
+    [Migration("20231101192722_InitDatabase")]
     partial class InitDatabase
     {
         /// <inheritdoc />
@@ -58,10 +58,7 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SpeciesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpieceID")
+                    b.Property<int>("SpeciesId")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
@@ -183,7 +180,7 @@ namespace Infracstructures.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("BirdID")
+                    b.Property<int?>("BirdID")
                         .HasColumnType("int");
 
                     b.Property<int>("CageID")
@@ -192,7 +189,7 @@ namespace Infracstructures.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Detail")
+                    b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -296,10 +293,7 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PRID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PurchaseOrderID")
+                    b.Property<int?>("PurchaseRequestID")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -309,7 +303,7 @@ namespace Infracstructures.Migrations
 
                     b.HasIndex("ManagerID");
 
-                    b.HasIndex("PurchaseOrderID");
+                    b.HasIndex("PurchaseRequestID");
 
                     b.ToTable("PurchaseOrder");
                 });
@@ -366,19 +360,12 @@ namespace Infracstructures.Migrations
                     b.Property<int?>("ManagerID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PurchaseOrderID")
-                        .HasColumnType("int");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.HasIndex("ManagerID");
-
-                    b.HasIndex("PurchaseOrderID")
-                        .IsUnique()
-                        .HasFilter("[PurchaseOrderID] IS NOT NULL");
 
                     b.ToTable("PurchaseRequest");
                 });
@@ -440,7 +427,7 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Total")
+                    b.Property<int?>("Total")
                         .HasColumnType("int");
 
                     b.Property<string>("Voice")
@@ -452,7 +439,7 @@ namespace Infracstructures.Migrations
                     b.ToTable("Spiece");
                 });
 
-            modelBuilder.Entity("Domain.Models.Base.Task", b =>
+            modelBuilder.Entity("Domain.Models.Base.Tasks", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -516,8 +503,9 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
@@ -540,7 +528,9 @@ namespace Infracstructures.Migrations
 
                     b.HasOne("Domain.Models.Base.Species", "Species")
                         .WithMany("Birds")
-                        .HasForeignKey("SpeciesId");
+                        .HasForeignKey("SpeciesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Cage");
 
@@ -569,8 +559,7 @@ namespace Infracstructures.Migrations
                     b.HasOne("Domain.Models.Base.Bird", "Bird")
                         .WithMany("Logs")
                         .HasForeignKey("BirdID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Domain.Models.Base.Cage", "Cage")
                         .WithMany("Logs")
@@ -615,11 +604,13 @@ namespace Infracstructures.Migrations
                         .WithMany("PurchaseOrders")
                         .HasForeignKey("ManagerID");
 
-                    b.HasOne("Domain.Models.Base.PurchaseOrder", null)
+                    b.HasOne("Domain.Models.Base.PurchaseRequest", "PurchaseRequest")
                         .WithMany("PurchaseOrders")
-                        .HasForeignKey("PurchaseOrderID");
+                        .HasForeignKey("PurchaseRequestID");
 
                     b.Navigation("Manager");
+
+                    b.Navigation("PurchaseRequest");
                 });
 
             modelBuilder.Entity("Domain.Models.Base.PurchaseOrderDetail", b =>
@@ -631,7 +622,7 @@ namespace Infracstructures.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Models.Base.PurchaseOrder", "PurchaseOrder")
-                        .WithMany()
+                        .WithMany("PurchaseOrderDetails")
                         .HasForeignKey("PurchaseOrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -647,13 +638,7 @@ namespace Infracstructures.Migrations
                         .WithMany("PurchaseRequests")
                         .HasForeignKey("ManagerID");
 
-                    b.HasOne("Domain.Models.Base.PurchaseOrder", "PurchaseOrder")
-                        .WithOne("PurchaseRequest")
-                        .HasForeignKey("Domain.Models.Base.PurchaseRequest", "PurchaseOrderID");
-
                     b.Navigation("Manager");
-
-                    b.Navigation("PurchaseOrder");
                 });
 
             modelBuilder.Entity("Domain.Models.Base.PurchaseRequestDetail", b =>
@@ -675,7 +660,7 @@ namespace Infracstructures.Migrations
                     b.Navigation("PurchaseRequest");
                 });
 
-            modelBuilder.Entity("Domain.Models.Base.Task", b =>
+            modelBuilder.Entity("Domain.Models.Base.Tasks", b =>
                 {
                     b.HasOne("Domain.Models.Base.Bird", "Bird")
                         .WithMany("Tasks")
@@ -736,13 +721,13 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Base.PurchaseOrder", b =>
                 {
-                    b.Navigation("PurchaseOrders");
-
-                    b.Navigation("PurchaseRequest");
+                    b.Navigation("PurchaseOrderDetails");
                 });
 
             modelBuilder.Entity("Domain.Models.Base.PurchaseRequest", b =>
                 {
+                    b.Navigation("PurchaseOrders");
+
                     b.Navigation("PurchaseRequestDetails");
                 });
 

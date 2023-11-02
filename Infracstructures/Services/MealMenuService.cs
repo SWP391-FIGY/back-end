@@ -10,7 +10,7 @@ namespace Infracstructures.Services
 {
     public class MealMenuService : IMealMenuService
     {
-        private readonly UnitOfWork _unitOfWork = new UnitOfWork();
+        private readonly IUnitOfWork _unitOfWork;
 
         #region Add New MealMenu
         public async Task<MealMenu> AddNewMealMenu(MealMenu mealMenu)
