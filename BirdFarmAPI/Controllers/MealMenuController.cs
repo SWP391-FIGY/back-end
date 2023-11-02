@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.OData.Query;
 
 namespace BirdFarmAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class MealMenuController : ControllerBase
     {
@@ -63,7 +63,8 @@ namespace BirdFarmAPI.Controllers
 
         #region Get MealMenu By ID
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetMealMenuByID(int id)
+        [EnableQuery]
+        public async Task<IActionResult> GetByID(int id)
         {
             try
             {
@@ -94,7 +95,7 @@ namespace BirdFarmAPI.Controllers
         #region Get All MealMenu
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> GetMealMenuList()
+        public async Task<IActionResult> Get()
         {
             try
             {

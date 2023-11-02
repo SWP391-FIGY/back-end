@@ -59,7 +59,7 @@ namespace Infracstructures.Migrations
                     ImageLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
                     Habitat = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Total = table.Column<int>(type: "int", nullable: false)
+                    Total = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -96,9 +96,8 @@ namespace Infracstructures.Migrations
                     BirdImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BirdStatus = table.Column<int>(type: "int", nullable: false),
                     LastModifyDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SpieceID = table.Column<int>(type: "int", nullable: false),
-                    CageID = table.Column<int>(type: "int", nullable: false),
-                    SpeciesId = table.Column<int>(type: "int", nullable: true)
+                    SpeciesId = table.Column<int>(type: "int", nullable: false),
+                    CageID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -113,7 +112,8 @@ namespace Infracstructures.Migrations
                         name: "FK_Bird_Spiece_SpeciesId",
                         column: x => x.SpeciesId,
                         principalTable: "Spiece",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -142,29 +142,21 @@ namespace Infracstructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PurchaseOrder",
+                name: "PurchaseRequest",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
                     CreatorID = table.Column<int>(type: "int", nullable: false),
-                    PRID = table.Column<int>(type: "int", nullable: false),
-                    ManagerID = table.Column<int>(type: "int", nullable: true),
-                    PurchaseOrderID = table.Column<int>(type: "int", nullable: true)
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    ManagerID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PurchaseOrder", x => x.ID);
+                    table.PrimaryKey("PK_PurchaseRequest", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_PurchaseOrder_PurchaseOrder_PurchaseOrderID",
-                        column: x => x.PurchaseOrderID,
-                        principalTable: "PurchaseOrder",
-                        principalColumn: "ID");
-                    table.ForeignKey(
-                        name: "FK_PurchaseOrder_User_ManagerID",
+                        name: "FK_PurchaseRequest_User_ManagerID",
                         column: x => x.ManagerID,
                         principalTable: "User",
                         principalColumn: "ID");
@@ -288,57 +280,28 @@ namespace Infracstructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PurchaseOrderDetail",
+                name: "PurchaseOrder",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    Unit = table.Column<int>(type: "int", nullable: false),
-                    NetPrice = table.Column<int>(type: "int", nullable: false),
-                    DeliverDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PurchaseOrderID = table.Column<int>(type: "int", nullable: false),
-                    FoodID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PurchaseOrderDetail", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_PurchaseOrderDetail_Food_FoodID",
-                        column: x => x.FoodID,
-                        principalTable: "Food",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PurchaseOrderDetail_PurchaseOrder_PurchaseOrderID",
-                        column: x => x.PurchaseOrderID,
-                        principalTable: "PurchaseOrder",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PurchaseRequest",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatorID = table.Column<int>(type: "int", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    PurchaseOrderID = table.Column<int>(type: "int", nullable: true),
-                    ManagerID = table.Column<int>(type: "int", nullable: true)
+                    CreatorID = table.Column<int>(type: "int", nullable: false),
+                    ManagerID = table.Column<int>(type: "int", nullable: true),
+                    PurchaseRequestID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PurchaseRequest", x => x.ID);
+                    table.PrimaryKey("PK_PurchaseOrder", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_PurchaseRequest_PurchaseOrder_PurchaseOrderID",
-                        column: x => x.PurchaseOrderID,
-                        principalTable: "PurchaseOrder",
+                        name: "FK_PurchaseOrder_PurchaseRequest_PurchaseRequestID",
+                        column: x => x.PurchaseRequestID,
+                        principalTable: "PurchaseRequest",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_PurchaseRequest_User_ManagerID",
+                        name: "FK_PurchaseOrder_User_ManagerID",
                         column: x => x.ManagerID,
                         principalTable: "User",
                         principalColumn: "ID");
@@ -367,6 +330,36 @@ namespace Infracstructures.Migrations
                         name: "FK_PurchaseRequestDetail_PurchaseRequest_PurchaseRequestID",
                         column: x => x.PurchaseRequestID,
                         principalTable: "PurchaseRequest",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PurchaseOrderDetail",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Unit = table.Column<int>(type: "int", nullable: false),
+                    NetPrice = table.Column<int>(type: "int", nullable: false),
+                    DeliverDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PurchaseOrderID = table.Column<int>(type: "int", nullable: false),
+                    FoodID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PurchaseOrderDetail", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_PurchaseOrderDetail_Food_FoodID",
+                        column: x => x.FoodID,
+                        principalTable: "Food",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PurchaseOrderDetail_PurchaseOrder_PurchaseOrderID",
+                        column: x => x.PurchaseOrderID,
+                        principalTable: "PurchaseOrder",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -422,9 +415,9 @@ namespace Infracstructures.Migrations
                 column: "ManagerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PurchaseOrder_PurchaseOrderID",
+                name: "IX_PurchaseOrder_PurchaseRequestID",
                 table: "PurchaseOrder",
-                column: "PurchaseOrderID");
+                column: "PurchaseRequestID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseOrderDetail_FoodID",
@@ -440,13 +433,6 @@ namespace Infracstructures.Migrations
                 name: "IX_PurchaseRequest_ManagerID",
                 table: "PurchaseRequest",
                 column: "ManagerID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PurchaseRequest_PurchaseOrderID",
-                table: "PurchaseRequest",
-                column: "PurchaseOrderID",
-                unique: true,
-                filter: "[PurchaseOrderID] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseRequestDetail_FoodID",
@@ -499,16 +485,16 @@ namespace Infracstructures.Migrations
                 name: "MealMenu");
 
             migrationBuilder.DropTable(
-                name: "Food");
+                name: "PurchaseOrder");
 
             migrationBuilder.DropTable(
-                name: "PurchaseRequest");
+                name: "Food");
 
             migrationBuilder.DropTable(
                 name: "Bird");
 
             migrationBuilder.DropTable(
-                name: "PurchaseOrder");
+                name: "PurchaseRequest");
 
             migrationBuilder.DropTable(
                 name: "Cage");

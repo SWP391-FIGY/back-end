@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.OData.Query;
 
 namespace BirdFarmAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class PurchaseRequestControllers : ControllerBase
+    public class PurchaseRequestController : ControllerBase
     {
         private readonly IPurchaseRequestService _purchaseRequestService;
 
-        public PurchaseRequestControllers(IPurchaseRequestService purchaseRequestService)
+        public PurchaseRequestController(IPurchaseRequestService purchaseRequestService)
         {
             _purchaseRequestService = purchaseRequestService;
         }
@@ -42,7 +42,8 @@ namespace BirdFarmAPI.Controllers
 
         #region Get PurchaseRequest By ID
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPurchaseRequestByID(int id)
+        [EnableQuery]
+        public async Task<IActionResult> GetByID(int id)
         {
             try
             {
@@ -73,7 +74,7 @@ namespace BirdFarmAPI.Controllers
         #region Get All PurchaseRequest
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> GetAllPurchaseRequest()
+        public async Task<IActionResult> Get()
         {
             try
             {

@@ -1,27 +1,34 @@
-﻿using Application.ResponseModels;
+﻿using Infracstructures.Interfaces;
 using Domain.Models.Base;
-using Infracstructures.Interfaces;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Application.ResponseModels;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.OData.Query;
 
 namespace BirdFarmAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class PurchaseOrderControllers : ControllerBase
+    public class CageController : ControllerBase
     {
-        private readonly IPurchaseOrderService _purchaseOrderService;
+        private readonly ICageService _cageService;
+        private readonly ICurrentTime _currenttime;
 
-        #region Create Purchase Order
+        public CageController(ICageService cageService, ICurrentTime currenttime)
+        {
+            _cageService = cageService;
+            _currenttime = currenttime;
+        }
+
+        #region AddNewCage
         [HttpPost]
-        public async Task<IActionResult> CreatePurchaseOrder(PurchaseOrder purchaseOrder)
+        public async Task<IActionResult> AddNewCage(Cage cage)
         {
             try
             {
-                var poObj = await _purchaseOrderService.CreatePurchaseOrder(purchaseOrder);
-                return Ok(poObj);
+                var cageObj = await _cageService.AddNewCage(cage);
+                return Ok(cageObj);
             }
             catch (Exception ex)
             {
@@ -35,14 +42,15 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get PurchaseOrder By ID
+        #region Get Cage By ID
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPurchaseOrderByID(int id)
+        [EnableQuery]
+        public async Task<IActionResult> GetByID(int id)
         {
             try
             {
-                var po = await _purchaseOrderService.GetPurchaseOrderByID(id);
-                return Ok(po);
+                var cage = await _cageService.GetCageByID(id);
+                return Ok(cage);
             }
             catch (ArgumentException ex)
             {
@@ -65,15 +73,15 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get All Purchase Order
+        #region Get Cage List
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> GetPurchaseOrderList()
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var poList = await _purchaseOrderService.GetAllPurchaseOrder();
-                return Ok(poList);
+                var cage = await _cageService.GetCageList();
+                return Ok(cage);
             }
             catch (InvalidOperationException ex)
             {
@@ -91,13 +99,13 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Update PurchaseOrder
+        #region Update Cage
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePurchaseOrder(int id, PurchaseOrder po)
+        public async Task<IActionResult> UpdateCage(int id, Cage cage)
         {
             try
             {
-                var result = await _purchaseOrderService.UpdatePurchaseOrder(id, po);
+                var result = await _cageService.UpdateCage(id, cage);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -112,13 +120,13 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Delete Purchase Order
+        #region Delete Cage
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePurchaseOrder(int id)
+        public async Task<IActionResult> DeleteFood(int id)
         {
             try
             {
-                var result = await _purchaseOrderService.DeletePurchaseOrder(id);
+                var result = await _cageService.DeleteCage(id);
                 return Ok(result);
             }
             catch (Exception ex)

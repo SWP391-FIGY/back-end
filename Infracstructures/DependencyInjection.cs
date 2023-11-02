@@ -3,6 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Infracstructures.Services;
 using Infracstructures.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Domain.Models.Base;
+using System.Data;
+using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
 
 namespace Infracstructures
 {
@@ -34,8 +38,9 @@ namespace Infracstructures
             services.AddScoped<ISpeciesService, SpeciesService>();
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<IUserService, UserService>();
-            return services; 
+            return services;
         }
+
     }
 
 }

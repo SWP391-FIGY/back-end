@@ -4,11 +4,12 @@ using Infracstructures.Interfaces;
 using Infracstructures.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BirdFarmAPI.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class SpeciesController : ControllerBase
     {
@@ -78,7 +79,8 @@ namespace BirdFarmAPI.Controllers
 
         #region Get All Species
         [HttpGet]
-        public async Task<IActionResult> GetAllSpeciesAsync()
+        [EnableQuery]
+        public async Task<IActionResult> Get()
         {
             try
             {
@@ -104,7 +106,8 @@ namespace BirdFarmAPI.Controllers
 
         #region Get Species By ID
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetSpeciesByIDAsync(int id)
+        [EnableQuery]
+        public async Task<IActionResult> GetByID(int id)
         {
             try
             {
@@ -133,14 +136,14 @@ namespace BirdFarmAPI.Controllers
         #endregion
 
         #region Get Species By Name
-        [HttpGet("{name}")]
+        [HttpGet("/name/{name}")]
         public async Task<IActionResult> GetSpeciesByName(string name)
         {
             try
             {
                 if (name.IsNullOrEmpty())
                 {
-                    return await GetAllSpeciesAsync();
+                    return Ok(await _speciesService.GetAllSpecies());
                 }
 
                 var result = await _speciesService.GetSpeciesByName(name);

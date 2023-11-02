@@ -12,9 +12,8 @@ namespace Domain.Models.Base
         public int CreatorID { get; set; }
         public DateTime DateTime { set; get; }
         public int Status { get; set; }
-        public int? PurchaseOrderID { get; set; }
         public User? Manager { get; set; } 
-        public PurchaseOrder? PurchaseOrder { get; set; }
+        public IList<PurchaseOrder>? PurchaseOrders { get; set; }
         public IList<PurchaseRequestDetail>? PurchaseRequestDetails { get; set; }
     }
 }

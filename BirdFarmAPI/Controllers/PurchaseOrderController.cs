@@ -1,37 +1,27 @@
-﻿using Infracstructures.Interfaces;
-using Application.ResponseModels;
+﻿using Application.ResponseModels;
 using Domain.Models.Base;
+using Infracstructures.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Application.ViewModels.User;
-using Microsoft.AspNetCore.Authorization;
-using Infracstructures.Helpers;
 
 namespace BirdFarmAPI.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("api/[controller]/[action]")]
-    
-    public class UserControllers : ControllerBase
+    public class PurchaseOrderController : ControllerBase
     {
-        private readonly IUserService _userService;
-        private readonly IConfiguration _configuration;
-        public UserControllers(IUserService userService, IConfiguration configuration) 
-        {
-            _userService = userService;
-            _configuration = configuration;
-        }
+        private readonly IPurchaseOrderService _purchaseOrderService;
 
-        #region Add New User
+        #region Create Purchase Order
         [HttpPost]
-        public async Task<IActionResult> AddUser(User user)
+        public async Task<IActionResult> CreatePurchaseOrder(PurchaseOrder purchaseOrder)
         {
             try
             {
-                var userObj = await _userService.AddUser(user);
-                return Ok(userObj);
+                var poObj = await _purchaseOrderService.CreatePurchaseOrder(purchaseOrder);
+                return Ok(poObj);
             }
             catch (Exception ex)
             {
@@ -45,15 +35,15 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get User By ID
-        [Authorize]
+        #region Get PurchaseOrder By ID
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserByID(int id)
+        [EnableQuery]
+        public async Task<IActionResult> GetByID(int id)
         {
             try
             {
-                var user = await _userService.GetUserById(id);
-                return Ok(user);
+                var po = await _purchaseOrderService.GetPurchaseOrderByID(id);
+                return Ok(po);
             }
             catch (ArgumentException ex)
             {
@@ -76,15 +66,15 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get User List
+        #region Get All Purchase Order
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> GetUserList()
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var user = await _userService.GetUserList();
-                return Ok(user);
+                var poList = await _purchaseOrderService.GetAllPurchaseOrder();
+                return Ok(poList);
             }
             catch (InvalidOperationException ex)
             {
@@ -102,13 +92,13 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Update User
+        #region Update PurchaseOrder
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateFood(int id, User user)
+        public async Task<IActionResult> UpdatePurchaseOrder(int id, PurchaseOrder po)
         {
             try
             {
-                var result = await _userService.UpdateUser(id, user);
+                var result = await _purchaseOrderService.UpdatePurchaseOrder(id, po);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -123,33 +113,21 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Login with email and password hashed
-        [HttpPost("login")]
-        public async Task<IActionResult> LoginAndGenerateToken(UserLoginVM userLoginVM)
+        #region Delete Purchase Order
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePurchaseOrder(int id)
         {
             try
             {
-                var result = await _userService.LoginAndGenerateToken(userLoginVM.Email, userLoginVM.Password);
-                var tokenValidated = JWTHelpers.ValidateToken(result.Item1, _configuration);
-                return Ok(new
-                {
-                    Token = result.Item1,
-                    UserInfo = new
-                    {
-                        result.Item2.Name, 
-                        result.Item2.Email,
-                        result.Item2.Role,
-                        result.Item2.Status,
-                        result.Item2.ID,
-                    }
-                });
+                var result = await _purchaseOrderService.DeletePurchaseOrder(id);
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 return BadRequest(new BaseFailedResponseModel()
                 {
                     Status = BadRequest().StatusCode,
-                    Message = "Login Failed",
+                    Message = "Delete Failed",
                     Errors = ex.Message
                 });
             }
