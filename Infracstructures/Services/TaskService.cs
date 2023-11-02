@@ -55,5 +55,19 @@ namespace Infracstructures.Services
             return taskObj;
         }
         #endregion
+
+        #region Delete Task
+        public async Task<Tasks> DeleteTask(int id)
+        {
+            var task = await _unitOfWork.TaskRepo.GetByIDAsync(id);
+            _unitOfWork.BirdRepo.Delete(task);
+            var check = await _unitOfWork.SaveChangeAsync();
+            if (check == 0)
+            {
+                throw new ArgumentException("Delete Failed!!!");
+            }
+            return null;
+        }
+        #endregion
     }
 }

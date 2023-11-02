@@ -13,5 +13,6 @@ namespace Infracstructures.Interfaces
         public Task<Tasks> GetTaskByID(int id);
         public Task<Tasks> UpdateTask(Tasks task, int id);
         public Task<IQueryable<Tasks>> GetAllTask();
+        public Task<Tasks> DeleteTask(int id);
     }
 }

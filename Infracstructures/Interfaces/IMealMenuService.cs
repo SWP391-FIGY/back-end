@@ -13,5 +13,6 @@ namespace Infracstructures.Interfaces
         public Task<MealMenu> GetMealMenuByID(int id);
         public Task<MealMenu> UpdateMealMenu(MealMenu mealMenu, int id);
         public Task<IQueryable<MealMenu>> GetAllMealMenu();
+        public Task<MealMenu> DeleteMealMenu(int id);
     }
 }

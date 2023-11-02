@@ -57,5 +57,18 @@ namespace Infracstructures.Services
         }
         #endregion
 
+        #region Delete MealMenu
+        public async Task<MealMenu> DeleteMealMenu(int id)
+        {
+            var mealMenu = await _unitOfWork.MealMenuRepo.GetByIDAsync(id);
+            _unitOfWork.MealMenuRepo.Delete(mealMenu);
+            var check = await _unitOfWork.SaveChangeAsync();
+            if (check == 0)
+            {
+                throw new ArgumentException("Delete Failed!!!");
+            }
+            return null;
+        }
+        #endregion
     }
 }
