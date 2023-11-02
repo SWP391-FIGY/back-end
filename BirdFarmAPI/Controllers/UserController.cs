@@ -156,5 +156,37 @@ namespace BirdFarmAPI.Controllers
             }
         }
         #endregion
+        #region Login with Firebase Token
+        [HttpPost("firebase")]
+        public async Task<IActionResult> LoginAndGenerateToken([FromForm] string firebaseToken)
+        {
+            try
+            {
+                var result = await _userService.LoginAndGenerateToken(firebaseToken);
+                var tokenValidated = JWTHelpers.ValidateToken(result.Item1, _configuration);
+                return Ok(new
+                {
+                    Token = result.Item1,
+                    UserInfo = new
+                    {
+                        result.Item2.Name,
+                        result.Item2.Email,
+                        result.Item2.Role,
+                        result.Item2.Status,
+                        result.Item2.ID,
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Login Failed",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
     }
 }

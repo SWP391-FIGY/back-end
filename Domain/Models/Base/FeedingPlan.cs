@@ -9,11 +9,12 @@ namespace Domain.Models.Base
     public class FeedingPlan
     {
         public int ID { get; set; }
+        public int MealMenuID { get; set; }
+        public int BirdID { get; set; }
         public DateTime DateTime { set; get; }
         public string FeedingStatus { set; get; }
-        public string Notation { set; get; }
-        public int BirdID { get; set; }
-        public int MenuID { get; set; }
+        public string Description { set; get; }
+
         public Bird? Bird { get; set; }
         public MealMenu? MealMenu { get; set; }
 

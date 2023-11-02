@@ -40,20 +40,18 @@ namespace Infracstructures.Migrations
                     b.Property<int>("CageID")
                         .HasColumnType("int");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DoB")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastModifyDate")
+                    b.Property<DateTime?>("LastModifyDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Notation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SpeciesId")
                         .HasColumnType("int");
@@ -116,19 +114,16 @@ namespace Infracstructures.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FeedingStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MealMenuID")
+                    b.Property<int>("MealMenuID")
                         .HasColumnType("int");
-
-                    b.Property<int>("MenuID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Notation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -155,18 +150,52 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StandardPrice")
+                    b.Property<int>("SafetyThreshold")
                         .HasColumnType("int");
 
-                    b.Property<int>("StorageCondition")
-                        .HasColumnType("int");
+                    b.Property<double>("StandardPrice")
+                        .HasColumnType("float");
 
-                    b.Property<int>("Unit")
-                        .HasColumnType("int");
+                    b.Property<string>("StorageCondition")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Unit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
                     b.ToTable("Food");
+                });
+
+            modelBuilder.Entity("Domain.Models.Base.InventoryLog", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("FoodId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Quantity")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("FoodId");
+
+                    b.ToTable("InventoryLog");
                 });
 
             modelBuilder.Entity("Domain.Models.Base.Log", b =>
@@ -186,7 +215,7 @@ namespace Infracstructures.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Note")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
@@ -206,10 +235,10 @@ namespace Infracstructures.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("Age")
+                    b.Property<int>("BirdStatus")
                         .HasColumnType("int");
 
-                    b.Property<int>("BirdStatus")
+                    b.Property<int?>("DaysBeforeFeeding")
                         .HasColumnType("int");
 
                     b.Property<string>("MenuName")
@@ -227,15 +256,12 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SpeceID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SpeciesId")
+                    b.Property<int>("SpeciesID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("SpeciesId");
+                    b.HasIndex("SpeciesID");
 
                     b.ToTable("MealMenu");
                 });
@@ -277,13 +303,10 @@ namespace Infracstructures.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("CreatorID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateTime")
+                    b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ManagerID")
+                    b.Property<int>("CreatorID")
                         .HasColumnType("int");
 
                     b.Property<string>("Note")
@@ -296,11 +319,16 @@ namespace Infracstructures.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SupplierID")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("ManagerID");
+                    b.HasIndex("CreatorID");
 
                     b.HasIndex("PurchaseRequestID");
+
+                    b.HasIndex("SupplierID");
 
                     b.ToTable("PurchaseOrder");
                 });
@@ -328,9 +356,6 @@ namespace Infracstructures.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("Unit")
-                        .HasColumnType("int");
-
                     b.HasKey("ID");
 
                     b.HasIndex("FoodID");
@@ -354,15 +379,12 @@ namespace Infracstructures.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ManagerID")
-                        .HasColumnType("int");
-
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ManagerID");
+                    b.HasIndex("CreatorID");
 
                     b.ToTable("PurchaseRequest");
                 });
@@ -395,14 +417,11 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Base.Species", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("Color")
                         .IsRequired()
@@ -413,8 +432,10 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImageLink")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LifeExpectancy")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -428,12 +449,36 @@ namespace Infracstructures.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Voice")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Species");
+                });
+
+            modelBuilder.Entity("Domain.Models.Base.Supplier", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Spiece");
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Supplier");
                 });
 
             modelBuilder.Entity("Domain.Models.Base.Tasks", b =>
@@ -444,10 +489,10 @@ namespace Infracstructures.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<int>("BirdID")
+                    b.Property<int?>("BirdID")
                         .HasColumnType("int");
 
-                    b.Property<int>("CageID")
+                    b.Property<int?>("CageID")
                         .HasColumnType("int");
 
                     b.Property<string>("DateTime")
@@ -455,7 +500,6 @@ namespace Infracstructures.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StaffID")
@@ -492,16 +536,17 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FirebaseID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Role")
@@ -544,11 +589,22 @@ namespace Infracstructures.Migrations
 
                     b.HasOne("Domain.Models.Base.MealMenu", "MealMenu")
                         .WithMany("FeedingPlans")
-                        .HasForeignKey("MealMenuID");
+                        .HasForeignKey("MealMenuID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Bird");
 
                     b.Navigation("MealMenu");
+                });
+
+            modelBuilder.Entity("Domain.Models.Base.InventoryLog", b =>
+                {
+                    b.HasOne("Domain.Models.Base.Food", "Food")
+                        .WithMany()
+                        .HasForeignKey("FoodId");
+
+                    b.Navigation("Food");
                 });
 
             modelBuilder.Entity("Domain.Models.Base.Log", b =>
@@ -573,7 +629,9 @@ namespace Infracstructures.Migrations
                 {
                     b.HasOne("Domain.Models.Base.Species", "Species")
                         .WithMany("MealMenus")
-                        .HasForeignKey("SpeciesId");
+                        .HasForeignKey("SpeciesID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Species");
                 });
@@ -597,17 +655,25 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Base.PurchaseOrder", b =>
                 {
-                    b.HasOne("Domain.Models.Base.User", "Manager")
+                    b.HasOne("Domain.Models.Base.User", "Creator")
                         .WithMany("PurchaseOrders")
-                        .HasForeignKey("ManagerID");
+                        .HasForeignKey("CreatorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Models.Base.PurchaseRequest", "PurchaseRequest")
                         .WithMany("PurchaseOrders")
                         .HasForeignKey("PurchaseRequestID");
 
-                    b.Navigation("Manager");
+                    b.HasOne("Domain.Models.Base.Supplier", "Supplier")
+                        .WithMany("PurchaseOrders")
+                        .HasForeignKey("SupplierID");
+
+                    b.Navigation("Creator");
 
                     b.Navigation("PurchaseRequest");
+
+                    b.Navigation("Supplier");
                 });
 
             modelBuilder.Entity("Domain.Models.Base.PurchaseOrderDetail", b =>
@@ -631,11 +697,13 @@ namespace Infracstructures.Migrations
 
             modelBuilder.Entity("Domain.Models.Base.PurchaseRequest", b =>
                 {
-                    b.HasOne("Domain.Models.Base.User", "Manager")
+                    b.HasOne("Domain.Models.Base.User", "Creator")
                         .WithMany("PurchaseRequests")
-                        .HasForeignKey("ManagerID");
+                        .HasForeignKey("CreatorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Manager");
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("Domain.Models.Base.PurchaseRequestDetail", b =>
@@ -662,14 +730,12 @@ namespace Infracstructures.Migrations
                     b.HasOne("Domain.Models.Base.Bird", "Bird")
                         .WithMany("Tasks")
                         .HasForeignKey("BirdID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Domain.Models.Base.Cage", "Cage")
                         .WithMany("Tasks")
                         .HasForeignKey("CageID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Domain.Models.Base.User", "Staff")
                         .WithMany("Tasks")
@@ -733,6 +799,11 @@ namespace Infracstructures.Migrations
                     b.Navigation("Birds");
 
                     b.Navigation("MealMenus");
+                });
+
+            modelBuilder.Entity("Domain.Models.Base.Supplier", b =>
+                {
+                    b.Navigation("PurchaseOrders");
                 });
 
             modelBuilder.Entity("Domain.Models.Base.User", b =>

@@ -37,9 +37,10 @@ namespace Infracstructures.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NutritionalIngredients = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StorageCondition = table.Column<int>(type: "int", nullable: false),
-                    Unit = table.Column<int>(type: "int", nullable: false),
-                    StandardPrice = table.Column<int>(type: "int", nullable: false)
+                    StorageCondition = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StandardPrice = table.Column<double>(type: "float", nullable: false),
+                    SafetyThreshold = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -47,23 +48,38 @@ namespace Infracstructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Spiece",
+                name: "Species",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Color = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Size = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Voice = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageLink = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
+                    Voice = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LifeExpectancy = table.Column<int>(type: "int", nullable: false),
                     Habitat = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Total = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Spiece", x => x.Id);
+                    table.PrimaryKey("PK_Species", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Supplier",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Supplier", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -74,8 +90,9 @@ namespace Infracstructures.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirebaseID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Role = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false)
                 },
@@ -85,19 +102,41 @@ namespace Infracstructures.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "InventoryLog",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FoodId = table.Column<int>(type: "int", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Quantity = table.Column<double>(type: "float", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InventoryLog", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_InventoryLog_Food_FoodId",
+                        column: x => x.FoodId,
+                        principalTable: "Food",
+                        principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Bird",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DoB = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Notation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BirdImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BirdStatus = table.Column<int>(type: "int", nullable: false),
-                    LastModifyDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SpeciesId = table.Column<int>(type: "int", nullable: false),
-                    CageID = table.Column<int>(type: "int", nullable: false)
+                    CageID = table.Column<int>(type: "int", nullable: false),
+                    DoB = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BirdStatus = table.Column<int>(type: "int", nullable: false),
+                    BirdImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastModifyDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -109,10 +148,10 @@ namespace Infracstructures.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Bird_Spiece_SpeciesId",
+                        name: "FK_Bird_Species_SpeciesId",
                         column: x => x.SpeciesId,
-                        principalTable: "Spiece",
-                        principalColumn: "Id",
+                        principalTable: "Species",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -123,22 +162,22 @@ namespace Infracstructures.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MenuName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
+                    SpeciesID = table.Column<int>(type: "int", nullable: false),
+                    DaysBeforeFeeding = table.Column<int>(type: "int", nullable: true),
                     Size = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BirdStatus = table.Column<int>(type: "int", nullable: false),
                     MenuStatus = table.Column<int>(type: "int", nullable: false),
-                    NutritionalIngredients = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SpeceID = table.Column<int>(type: "int", nullable: false),
-                    SpeciesId = table.Column<int>(type: "int", nullable: true)
+                    NutritionalIngredients = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MealMenu", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_MealMenu_Spiece_SpeciesId",
-                        column: x => x.SpeciesId,
-                        principalTable: "Spiece",
-                        principalColumn: "Id");
+                        name: "FK_MealMenu_Species_SpeciesID",
+                        column: x => x.SpeciesID,
+                        principalTable: "Species",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -149,17 +188,17 @@ namespace Infracstructures.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreatorID = table.Column<int>(type: "int", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    ManagerID = table.Column<int>(type: "int", nullable: true)
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PurchaseRequest", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_PurchaseRequest_User_ManagerID",
-                        column: x => x.ManagerID,
+                        name: "FK_PurchaseRequest_User_CreatorID",
+                        column: x => x.CreatorID,
                         principalTable: "User",
-                        principalColumn: "ID");
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -168,10 +207,10 @@ namespace Infracstructures.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BirdID = table.Column<int>(type: "int", nullable: true),
                     CageID = table.Column<int>(type: "int", nullable: false),
-                    BirdID = table.Column<int>(type: "int", nullable: true)
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -194,13 +233,13 @@ namespace Infracstructures.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    BirdID = table.Column<int>(type: "int", nullable: true),
+                    CageID = table.Column<int>(type: "int", nullable: true),
+                    StaffID = table.Column<int>(type: "int", nullable: false),
                     TaskName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateTime = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BirdID = table.Column<int>(type: "int", nullable: false),
-                    CageID = table.Column<int>(type: "int", nullable: false),
-                    StaffID = table.Column<int>(type: "int", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -229,12 +268,11 @@ namespace Infracstructures.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    MealMenuID = table.Column<int>(type: "int", nullable: false),
+                    BirdID = table.Column<int>(type: "int", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FeedingStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Notation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BirdID = table.Column<int>(type: "int", nullable: false),
-                    MenuID = table.Column<int>(type: "int", nullable: false),
-                    MealMenuID = table.Column<int>(type: "int", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -258,9 +296,9 @@ namespace Infracstructures.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
                     MenuID = table.Column<int>(type: "int", nullable: false),
                     FoodID = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
                     MealMenuID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -285,12 +323,12 @@ namespace Infracstructures.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
                     CreatorID = table.Column<int>(type: "int", nullable: false),
-                    ManagerID = table.Column<int>(type: "int", nullable: true),
-                    PurchaseRequestID = table.Column<int>(type: "int", nullable: true)
+                    PurchaseRequestID = table.Column<int>(type: "int", nullable: true),
+                    SupplierID = table.Column<int>(type: "int", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -301,10 +339,16 @@ namespace Infracstructures.Migrations
                         principalTable: "PurchaseRequest",
                         principalColumn: "ID");
                     table.ForeignKey(
-                        name: "FK_PurchaseOrder_User_ManagerID",
-                        column: x => x.ManagerID,
-                        principalTable: "User",
+                        name: "FK_PurchaseOrder_Supplier_SupplierID",
+                        column: x => x.SupplierID,
+                        principalTable: "Supplier",
                         principalColumn: "ID");
+                    table.ForeignKey(
+                        name: "FK_PurchaseOrder_User_CreatorID",
+                        column: x => x.CreatorID,
+                        principalTable: "User",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -313,9 +357,9 @@ namespace Infracstructures.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
                     PurchaseRequestID = table.Column<int>(type: "int", nullable: false),
-                    FoodID = table.Column<int>(type: "int", nullable: false)
+                    FoodID = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -340,12 +384,11 @@ namespace Infracstructures.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    Unit = table.Column<int>(type: "int", nullable: false),
-                    NetPrice = table.Column<int>(type: "int", nullable: false),
-                    DeliverDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PurchaseOrderID = table.Column<int>(type: "int", nullable: false),
-                    FoodID = table.Column<int>(type: "int", nullable: false)
+                    FoodID = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    NetPrice = table.Column<int>(type: "int", nullable: false),
+                    DeliverDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -385,6 +428,11 @@ namespace Infracstructures.Migrations
                 column: "MealMenuID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_InventoryLog_FoodId",
+                table: "InventoryLog",
+                column: "FoodId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Log_BirdID",
                 table: "Log",
                 column: "BirdID");
@@ -395,9 +443,9 @@ namespace Infracstructures.Migrations
                 column: "CageID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MealMenu_SpeciesId",
+                name: "IX_MealMenu_SpeciesID",
                 table: "MealMenu",
-                column: "SpeciesId");
+                column: "SpeciesID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MenuDetail_FoodID",
@@ -410,14 +458,19 @@ namespace Infracstructures.Migrations
                 column: "MealMenuID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PurchaseOrder_ManagerID",
+                name: "IX_PurchaseOrder_CreatorID",
                 table: "PurchaseOrder",
-                column: "ManagerID");
+                column: "CreatorID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseOrder_PurchaseRequestID",
                 table: "PurchaseOrder",
                 column: "PurchaseRequestID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PurchaseOrder_SupplierID",
+                table: "PurchaseOrder",
+                column: "SupplierID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseOrderDetail_FoodID",
@@ -430,9 +483,9 @@ namespace Infracstructures.Migrations
                 column: "PurchaseOrderID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PurchaseRequest_ManagerID",
+                name: "IX_PurchaseRequest_CreatorID",
                 table: "PurchaseRequest",
-                column: "ManagerID");
+                column: "CreatorID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseRequestDetail_FoodID",
@@ -467,6 +520,9 @@ namespace Infracstructures.Migrations
                 name: "FeedingPlan");
 
             migrationBuilder.DropTable(
+                name: "InventoryLog");
+
+            migrationBuilder.DropTable(
                 name: "Log");
 
             migrationBuilder.DropTable(
@@ -497,10 +553,13 @@ namespace Infracstructures.Migrations
                 name: "PurchaseRequest");
 
             migrationBuilder.DropTable(
+                name: "Supplier");
+
+            migrationBuilder.DropTable(
                 name: "Cage");
 
             migrationBuilder.DropTable(
-                name: "Spiece");
+                name: "Species");
 
             migrationBuilder.DropTable(
                 name: "User");

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -34,6 +37,17 @@ namespace BirdFarmAPI
                                       .AllowAnyHeader()
                                       .AllowAnyMethod();
                                   });
+            });
+
+
+
+            string jsonLocationPath = "bird-management-27cc4-firebase-adminsdk-t0xlu-58bfb8083b.json";
+            string fullPath = Environment.CurrentDirectory;
+            string jsonLocationFullPath = Path.Combine(fullPath, jsonLocationPath);
+            FirebaseApp.Create(
+            new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile(jsonLocationFullPath),
             });
         }
     }
