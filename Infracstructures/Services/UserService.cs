@@ -88,6 +88,11 @@ namespace Infracstructures.Services
                     if (payload != null)
                     {
                         var existedUser = await GetUserByEmail(email: payload.Claims["email"].ToString());
+                        if (existedUser.FirebaseID != payload.Uid)
+                        {
+                            existedUser.FirebaseID = payload.Uid;
+                            await _unitOfWork.SaveChangeAsync();
+                        }
                         if (existedUser == null)
                         {
                             existedUser = await RegisterFirebaseUser(payload);
@@ -128,7 +133,7 @@ namespace Infracstructures.Services
         public async Task<User> GetUserByEmail(string email)
         {
             var user = await _unitOfWork.UserRepo.Get().FirstOrDefaultAsync(x => x.Email.Equals(email));
-            user.Password = "";
+            if (user != null) user.Password = "";
             return user;
         }
 
