@@ -66,11 +66,10 @@ namespace Infracstructures.Services
         #region Update PurchaseRequest
         public async Task<PurchaseRequest> UpdatePurchaseRequest(int id, PurchaseRequest purchaseRequest)
         {
-            var pr = await _unitOfWork.PurchaseRequestRepo.GetByIDAsync(id);
-            _unitOfWork.PurchaseRequestRepo.Update(pr);
+            _unitOfWork.PurchaseRequestRepo.Update(purchaseRequest);
             var check = await _unitOfWork.SaveChangeAsync();
             if (check == 0) throw new ArgumentException("Update failed!!!");
-            return pr;
+            return purchaseRequest;
         }
         #endregion
     }

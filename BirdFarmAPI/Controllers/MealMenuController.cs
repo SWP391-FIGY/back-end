@@ -43,11 +43,11 @@ namespace BirdFarmAPI.Controllers
 
         #region Update MealMenu
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMealMenu(MealMenu mealMenu, int Id)
+        public async Task<IActionResult> UpdateMealMenu(MealMenu mealMenu, int id)
         {
             try
             {
-                var result = await _mealMenuService.UpdateMealMenu(mealMenu, Id);
+                var result = await _mealMenuService.UpdateMealMenu(mealMenu, id);
                 return Ok(result);
             }
             catch (Exception ex)

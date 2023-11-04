@@ -73,14 +73,13 @@ namespace Infracstructures.Services
         #region Update PurchaseOrder
         public async Task<PurchaseOrder> UpdatePurchaseOrder(int id, PurchaseOrder purchaseOrder)
         {
-            var po = await _unitOfWork.PurchaseOrderRepo.GetByIDAsync(id);
-            _unitOfWork.PurchaseOrderRepo.Update(po);
+            _unitOfWork.PurchaseOrderRepo.Update(purchaseOrder);
             var check = await _unitOfWork.SaveChangeAsync();
             if(check == 0)
             {
                 throw new ArgumentException("Update failed!!!");
             }
-            return po;
+            return purchaseOrder;
         }
         #endregion
     }

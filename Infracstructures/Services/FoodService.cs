@@ -62,15 +62,14 @@ namespace Infracstructures.Services
         #region Update Food
         public async Task<Food> UpdateFood(int id, Food food)
         {
-            var foodObj = await _unitOfWork.FoodRepo.GetByIDAsync(id);
-            _unitOfWork.FoodRepo.Update(foodObj);
+            _unitOfWork.FoodRepo.Update(food);
             var check = await _unitOfWork.SaveChangeAsync();
 
             if(check == 0)
             {
                 throw new ArgumentException("Update failed!!!");
             }
-            return foodObj;
+            return food;
         }
         #endregion
 

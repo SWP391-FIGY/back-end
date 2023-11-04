@@ -63,15 +63,14 @@ namespace Infracstructures.Services
         #region Update Supplier
         public async Task<Supplier> UpdateSupplier(int id, Supplier supplier)
         {
-            var suppObj = await _unitOfWork.SupplierRepo.GetByIDAsync(id);
-            _unitOfWork.SupplierRepo.Update(suppObj);
+            _unitOfWork.SupplierRepo.Update(supplier);
             var check = await _unitOfWork.SaveChangeAsync();
 
             if (check == 0)
             {
                 throw new ArgumentException("Update failed!!!");
             }
-            return suppObj;
+            return supplier;
         }
         #endregion
 

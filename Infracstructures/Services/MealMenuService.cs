@@ -12,6 +12,10 @@ namespace Infracstructures.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
+        public MealMenuService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
         #region Add New MealMenu
         public async Task<MealMenu> AddNewMealMenu(MealMenu mealMenu)
         {
@@ -49,11 +53,10 @@ namespace Infracstructures.Services
         #region Update MealMenu
         public async Task<MealMenu> UpdateMealMenu(MealMenu mealMenu, int id)
         {
-            var mealMenuObj = await _unitOfWork.MealMenuRepo.GetByIDAsync(id);
-            if (mealMenuObj == null) throw new Exception("Meal Menu does not exist!!!");
 
-            _unitOfWork.MealMenuRepo.Update(mealMenuObj);
-            return mealMenuObj;
+            _unitOfWork.MealMenuRepo.Update(mealMenu);
+            await _unitOfWork.SaveChangeAsync();
+            return mealMenu;
         }
         #endregion
 

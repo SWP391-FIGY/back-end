@@ -50,11 +50,9 @@ namespace Infracstructures.Services
         #region Update Task
         public async Task<Tasks> UpdateTask(Tasks task, int id)
         {
-            var taskObj = await _unitOfWork.TaskRepo.GetByIDAsync(id);
-            if (taskObj == null) throw new Exception("Task does not exist!!!");
 
-            _unitOfWork.TaskRepo.Update(taskObj);
-            return taskObj;
+            _unitOfWork.TaskRepo.Update(task);
+            return task;
         }
         #endregion
 

@@ -36,13 +36,11 @@ namespace Infracstructures.Services
         #region Update Bird
         public async Task<Bird> UpdateBird(Bird bird, int id)
         {
-            var birdObj = await _unitOfWork.BirdRepo.GetByIDAsync(id);
-            if (birdObj == null) throw new Exception("Bird does not exist!!!");
 
             bird.LastModifyDate = _currentTime.GetCurrentTime();
-            _unitOfWork.BirdRepo.Update(birdObj);
+            _unitOfWork.BirdRepo.Update(bird);
             await _unitOfWork.SaveChangeAsync();
-            return birdObj;
+            return bird;
         }
         #endregion
 

@@ -52,7 +52,6 @@ namespace Infracstructures.Services
         #region Update Species
         public async Task<Species> UpdateSpecies(int id, Species species)
         {
-            var exObj = await _unitOfWork.SpeciesRepo.GetByIDAsync(id);
             _unitOfWork.SpeciesRepo.Update(species);
             var check = await _unitOfWork.SaveChangeAsync();
             if (check == 0)

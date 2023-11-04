@@ -12,6 +12,10 @@ namespace Infracstructures.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
+        public FeedingPlanService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
         #region Add New FeedingPlan
         public async Task<FeedingPlan> AddNewFeedingPlan(FeedingPlan feedingPlan)
         {
@@ -49,11 +53,10 @@ namespace Infracstructures.Services
         #region Update FeedingPlan
         public async Task<FeedingPlan> UpdateTask(FeedingPlan feedingPlan, int id)
         {
-            var feedingPlanObj = await _unitOfWork.FeedingPlanRepo.GetByIDAsync(id);
-            if (feedingPlanObj == null) throw new Exception("Feeding Plan does not exist!!!");
 
-            _unitOfWork.FeedingPlanRepo.Update(feedingPlanObj);
-            return feedingPlanObj;
+            _unitOfWork.FeedingPlanRepo.Update(feedingPlan);
+            await _unitOfWork.SaveChangeAsync();
+            return feedingPlan;
         }
         #endregion
 
