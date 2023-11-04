@@ -18,6 +18,7 @@ namespace BirdFarmAPI.Controllers
         {
             _mealMenuService = mealMenuService;
         }
+        
 
         #region Add New MealMenu
         [HttpPost]
@@ -112,6 +113,27 @@ namespace BirdFarmAPI.Controllers
                 {
                     Status = BadRequest().StatusCode,
                     Message = "Internal server error",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
+
+        #region Delete MealMenu
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMealMenu(int id)
+        {
+            try
+            {
+                var mealMenu = await _mealMenuService.DeleteMealMenu(id);
+                return Ok(mealMenu);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Update Failed",
                     Errors = ex.Message
                 });
             }

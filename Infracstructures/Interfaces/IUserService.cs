@@ -15,5 +15,6 @@ namespace Infracstructures.Interfaces
         Task<User> GetUserById(int id);
         Task<User> UpdateUser(int id, User user);
         Task<Tuple<string, User>> LoginAndGenerateToken(string email, string rawPassword);
+        Task<Tuple<string, User>> LoginAndGenerateToken(string firebaseToken);
     }
 }

@@ -23,7 +23,7 @@ namespace Infracstructures.Services
         public async Task<PurchaseOrder> CreatePurchaseOrder(PurchaseOrder purchaseOrder)
         {
             //purchaseOrder.CreatorID = _claimsService.GetCurrentUser();
-            purchaseOrder.DateTime = _currentTime.GetCurrentTime();
+            purchaseOrder.CreateDate = _currentTime.GetCurrentTime();
             await _unitOfWork.PurchaseOrderRepo.Insert(purchaseOrder);
 
             if (await _unitOfWork.SaveChangeAsync() > 0)

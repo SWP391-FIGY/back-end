@@ -1,4 +1,6 @@
 ﻿using Domain.Models.Base;
+using FirebaseAdmin.Auth;
+using Google.Apis.Auth;
 using Infracstructures.Helpers;
 using Infracstructures.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +27,14 @@ namespace Infracstructures.Services
         public async Task<User> AddUser(User user)
         {
             user.Password = user.Password.Hash();
+
+            var userList = _unitOfWork.UserRepo.Get();
+
+            // Check duplicate email
+            if (userList.Any(x => x.Email.ToLower().Equals(user.Email.ToLower()))) throw new Exception("Duplicate email!!!");
+            if (userList.Any(x => x.FirebaseID.ToLower().Equals(user.FirebaseID.ToLower()))) throw new Exception("Duplicate FirebaseID!!!");
+
+
             await _unitOfWork.UserRepo.Insert(user);
 
             if (await _unitOfWork.SaveChangeAsync() > 0)
@@ -66,6 +76,40 @@ namespace Infracstructures.Services
             throw new Exception("Wrong Credential");
         }
 
+        public async Task<Tuple<string, User>> LoginAndGenerateToken(string firebaseToken)
+        {
+
+
+            if (!string.IsNullOrEmpty(firebaseToken))
+            {
+                try
+                {
+                    var payload = await VerifyFirebaseTokenAsync(firebaseToken);
+                    if (payload != null)
+                    {
+                        var existedUser = await GetUserByEmail(email: payload.Claims["email"].ToString());
+                        if (existedUser.FirebaseID != payload.Uid)
+                        {
+                            existedUser.FirebaseID = payload.Uid;
+                            await _unitOfWork.SaveChangeAsync();
+                        }
+                        if (existedUser == null)
+                        {
+                            existedUser = await RegisterFirebaseUser(payload);
+                        }
+                        return new Tuple<string, User>(
+                            JWTHelpers.GenerateJWT(existedUser, _currentTime.GetCurrentTime(), _configuration),
+                            existedUser);
+                    }
+                }
+                catch
+                {
+                    throw new InvalidJwtException("Invalid token");
+                }
+            }
+            throw new Exception("Wrong Credential");
+        }
+
         public async Task<User> UpdateUser(int id, User user)
         {
             var existedEntity = await _unitOfWork.UserRepo.GetByIDAsync(id);
@@ -76,6 +120,37 @@ namespace Infracstructures.Services
             {
                 throw new ArgumentException("Update failed!!!");
             }
+            return user;
+        }
+
+        public async Task<FirebaseToken> VerifyFirebaseTokenAsync(string idToken)
+        {
+            FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(idToken);
+            string uid = decodedToken.Claims["email"].ToString();
+            return decodedToken;
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            var user = await _unitOfWork.UserRepo.Get().FirstOrDefaultAsync(x => x.Email.Equals(email));
+            if (user != null) user.Password = "";
+            return user;
+        }
+
+        public async Task<User> RegisterFirebaseUser(FirebaseToken payload)
+        {
+            var email = payload.Claims["email"].ToString();
+            var user = new User
+            {
+                Name = payload.Claims["name"].ToString(),
+                Email = email,
+                FirebaseID = payload.Uid,
+                Role = 1,
+                Status = 1,
+            };
+
+            await _unitOfWork.UserRepo.Insert(user);
+            await _unitOfWork.SaveChangeAsync();
             return user;
         }
     }

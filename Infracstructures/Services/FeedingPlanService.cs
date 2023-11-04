@@ -56,5 +56,19 @@ namespace Infracstructures.Services
             return feedingPlanObj;
         }
         #endregion
+
+        #region Delete FeedingPlan
+        public async Task<FeedingPlan> DeleteFeedingPlan(int id)
+        {
+            var feedingPlan = await _unitOfWork.FeedingPlanRepo.GetByIDAsync(id);
+            _unitOfWork.BirdRepo.Delete(feedingPlan);
+            var check = await _unitOfWork.SaveChangeAsync();
+            if (check == 0)
+            {
+                throw new ArgumentException("Delete Failed!!!");
+            }
+            return null;
+        }
+        #endregion
     }
 }

@@ -13,5 +13,6 @@ namespace Infracstructures.Interfaces
         public Task<FeedingPlan> GetFeedingPlanByID(int id);
         public Task<FeedingPlan> UpdateTask(FeedingPlan feedingPlan, int id);
         public Task<IQueryable<FeedingPlan>> GetAllFeedingPlan();
+        public Task<FeedingPlan> DeleteFeedingPlan(int id);
     }
 }

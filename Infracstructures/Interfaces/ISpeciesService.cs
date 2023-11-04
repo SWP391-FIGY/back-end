@@ -14,5 +14,6 @@ namespace Infracstructures.Interfaces
         Task<IQueryable<Species>> GetAllSpecies();
         Task<Species> GetSpeciesByID(int id);
         Task<IQueryable<Species>> GetSpeciesByName(string name);
+        public Task<Species> DeleteSpecies(int id);
     }
 }

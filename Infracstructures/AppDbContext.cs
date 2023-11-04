@@ -16,6 +16,7 @@ namespace Infracstructures
         public DbSet<Cage> Cage { get; set; }
         public DbSet<FeedingPlan> FeedingPlan { get; set; }
         public DbSet<Food> Food { get; set; }
+        public DbSet<InventoryLog> InventoryLog { get; set; }
         public DbSet<MealMenu> MealMenu { get; set; }
         public DbSet<Log> Log { get; set; }
         public DbSet<MenuDetail> MenuDetail { get; set; }
@@ -23,7 +24,8 @@ namespace Infracstructures
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetail { get;set; }
         public DbSet<PurchaseRequest> PurchaseRequest { get; set;}
         public DbSet<PurchaseRequestDetail> PurchaseRequestDetail { get; set ; }
-        public DbSet<Species> Spiece { get; set; }
+        public DbSet<Species> Species { get; set; }
+        public DbSet<Supplier> Supplier { get; set; }
         public DbSet<Tasks> Task { get; set; }
         public DbSet<User> User { get; set; }
 
@@ -48,6 +50,11 @@ namespace Infracstructures
                 .Entity<Tasks>()
                 .HasOne(e => e.Bird)
                 .WithMany(e => e.Tasks)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder
+                .Entity<FeedingPlan>()
+                .HasOne(e => e.MealMenu)
+                .WithMany(e => e.FeedingPlans)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }
