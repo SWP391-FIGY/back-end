@@ -9,11 +9,11 @@ namespace Infracstructures.Interfaces
 {
     public interface IFoodService
     {
-        public Task<Food> AddNewFood(Food food);
-        public Task<IQueryable<Food>> GetFoodList();
-        public Task<Food> GetFoodById(int id);
-        public Task<IQueryable<Food>> GetFoodByName(string name);
-        public Task<Food> UpdateFood(int id, Food food);
-        public Task<Food> DeleteFood(int id);
+        Task<Food> AddNewFood(Food food);
+        Task<IQueryable<Food>> GetFoodList();
+        Task<Food> GetFoodById(int id);
+        Task<IQueryable<Food>> GetFoodByName(string name);
+        Task<Food> UpdateFood(int id, Food food);
+        Task<Food> DeleteFood(int id);
     }
 }

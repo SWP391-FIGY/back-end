@@ -12,23 +12,40 @@ namespace BirdFarmAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FoodController : ControllerBase
+    public class SupplierControllers : ControllerBase
     {
-        private readonly IFoodService _foodService;
+        private readonly ISupplierService _supplierService;
 
-        public FoodController(IFoodService foodService)
+        public SupplierControllers(ISupplierService supplierService)
         {
-            _foodService = foodService;
+            _supplierService = supplierService;
         }
 
-        #region Add New Food
+        #region Add new Supplier
         [HttpPost]
-        public async Task<IActionResult> AddNewFood(Food food)
+        public async Task<IActionResult> CreateSupplier(Supplier supplier)
         {
             try
             {
-                var foodObj = await _foodService.AddNewFood(food);
-                return Ok(foodObj);
+                if (supplier.Name.IsNullOrEmpty())
+                {
+                    return BadRequest(new BaseFailedResponseModel
+                    {
+                        Status = BadRequest().StatusCode,
+                        Message = "Name is null!!!"
+                    });
+                }
+                var result = await _supplierService.NewSupplier(supplier);
+                return Ok(result);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new BaseFailedResponseModel
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Name dupplicated!!!",
+                    Errors = ex,
+                });
             }
             catch (Exception ex)
             {
@@ -42,15 +59,15 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get Food By ID
+        #region Get Supplier By ID
         [HttpGet("{id}")]
         [EnableQuery]
         public async Task<IActionResult> GetByID(int id)
         {
             try
             {
-                var food = await _foodService.GetFoodById(id);
-                return Ok(food);
+                var result = await _supplierService.GetSupplierByID(id);
+                return Ok(result);
             }
             catch (ArgumentException ex)
             {
@@ -73,18 +90,18 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get Food By Name
+        #region Get Supplier By Name
         /*[HttpGet("/name/{name}")]
-        public async Task<IActionResult> GetFoodByName(string name)
+        public async Task<IActionResult> GetSupplierByName(string name)
         {
             try
             {
                 if (name.IsNullOrEmpty())
                 {
-                    return Ok(await _foodService.GetFoodList());
+                    return Ok(await _supplierService.GetSupplierList());
                 }
 
-                var result = await _foodService.GetFoodByName(name);
+                var result = await _supplierService.GetSupplierByName(name);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -94,15 +111,15 @@ namespace BirdFarmAPI.Controllers
         }*/
         #endregion
 
-        #region Get Food List
+        #region Get Supplier List
         [HttpGet]
         [EnableQuery]
         public async Task<IActionResult> Get()
         {
             try
             {
-                var food = await _foodService.GetFoodList();
-                return Ok(food);
+                var result = await _supplierService.GetSupplierList();
+                return Ok(result);
             }
             catch (InvalidOperationException ex)
             {
@@ -120,13 +137,13 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Update Food
+        #region Update Supplier
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateFood(int id, Food food)
+        public async Task<IActionResult> UpdateSupplier(int id, Supplier supplier)
         {
             try
             {
-                var result = await _foodService.UpdateFood(id, food);
+                var result = await _supplierService.UpdateSupplier(id, supplier);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -141,21 +158,21 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Delete Food
+        #region Delete Supplier
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFood(int id)
+        public async Task<IActionResult> DeleteSupplier(int id)
         {
             try
             {
-                var result = await _foodService.DeleteFood(id);
-                return Ok(result);
+                var sup = await _supplierService.DeleteSupplier(id);
+                return Ok(sup);
             }
             catch (Exception ex)
             {
                 return BadRequest(new BaseFailedResponseModel()
                 {
                     Status = BadRequest().StatusCode,
-                    Message = "Delete Failed",
+                    Message = "Update Failed",
                     Errors = ex.Message
                 });
             }

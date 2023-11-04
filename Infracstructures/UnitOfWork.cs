@@ -19,6 +19,7 @@ namespace Infracstructures
         private GenericRepository<PurchaseRequest> _purchaseRequestRepo;
         private GenericRepository<PurchaseRequestDetail> _purchaseRequestDetailRepo;
         private GenericRepository<Species> _speciesRepo;
+        private GenericRepository<Supplier> _supplierRepo;
         private GenericRepository<Tasks> _taskRepo;
         private GenericRepository<User> _userRepo;
         
@@ -164,6 +165,18 @@ namespace Infracstructures
                     this._speciesRepo = new GenericRepository<Species>(_context);
                 }
                 return _speciesRepo;
+            }
+        }
+
+        public GenericRepository<Supplier> SupplierRepo
+        {
+            get
+            {
+                if(this._supplierRepo == null)
+                {
+                    this._supplierRepo = new GenericRepository<Supplier>(_context);
+                }
+                return _supplierRepo;
             }
         }
 
