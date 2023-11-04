@@ -91,7 +91,7 @@ namespace BirdFarmAPI.Controllers
         #endregion
 
         #region Get Supplier By Name
-        [HttpGet("/name/{name}")]
+        /*[HttpGet("/name/{name}")]
         public async Task<IActionResult> GetSupplierByName(string name)
         {
             try
@@ -108,7 +108,7 @@ namespace BirdFarmAPI.Controllers
             {
                 throw new Exception(ex.Message);
             }
-        }
+        }*/
         #endregion
 
         #region Get Supplier List

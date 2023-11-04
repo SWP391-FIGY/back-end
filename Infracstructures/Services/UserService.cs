@@ -97,6 +97,8 @@ namespace Infracstructures.Services
                         {
                             existedUser = await RegisterFirebaseUser(payload);
                         }
+
+                        existedUser.Password = "";
                         return new Tuple<string, User>(
                             JWTHelpers.GenerateJWT(existedUser, _currentTime.GetCurrentTime(), _configuration),
                             existedUser);
@@ -112,8 +114,8 @@ namespace Infracstructures.Services
 
         public async Task<User> UpdateUser(int id, User user)
         {
-            var existedEntity = await _unitOfWork.UserRepo.GetByIDAsync(id);
-            _unitOfWork.UserRepo.Update(existedEntity);
+            user.Password = user.Password.Hash();
+            _unitOfWork.UserRepo.Update(user);
             var check = await _unitOfWork.SaveChangeAsync();
 
             if (check == 0)
@@ -126,14 +128,12 @@ namespace Infracstructures.Services
         public async Task<FirebaseToken> VerifyFirebaseTokenAsync(string idToken)
         {
             FirebaseToken decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(idToken);
-            string uid = decodedToken.Claims["email"].ToString();
             return decodedToken;
         }
 
         public async Task<User> GetUserByEmail(string email)
         {
             var user = await _unitOfWork.UserRepo.Get().FirstOrDefaultAsync(x => x.Email.Equals(email));
-            if (user != null) user.Password = "";
             return user;
         }
 

@@ -9,11 +9,11 @@ namespace Infracstructures.Interfaces
 {
     public interface ISupplierService
     {
-        public Task<Supplier> NewSupplier(Supplier supplier);
-        public Task<Supplier> GetSupplierByID(int id);
-        public Task<IQueryable<Supplier>> GetSupplierByName(string name);
-        public Task<IQueryable<Supplier>> GetSupplierList();
-        public Task<Supplier> UpdateSupplier(int id, Supplier supplier);
-        public Task<Supplier> DeleteSupplier(int id);
+        Task<Supplier> NewSupplier(Supplier supplier);
+        Task<Supplier> GetSupplierByID(int id);
+        Task<IQueryable<Supplier>> GetSupplierByName(string name);
+        Task<IQueryable<Supplier>> GetSupplierList();
+        Task<Supplier> UpdateSupplier(int id, Supplier supplier);
+        Task<Supplier> DeleteSupplier(int id);
     }
 }

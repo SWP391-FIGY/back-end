@@ -16,7 +16,6 @@ namespace Domain.Models.Base
         public string? ImageLink { get; set; }
         public int LifeExpectancy { get; set; }
         public string Habitat { set; get; }
-        public int? Total { get; set; }
         public IList<Bird>? Birds { get; set; }
         public IList<MealMenu>? MealMenus { get; set; }
     }

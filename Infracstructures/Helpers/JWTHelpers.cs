@@ -22,8 +22,8 @@ namespace Infracstructures.Helpers
             {
                 new Claim(JwtRegisteredClaimNames.Sub, configuration["Jwt:Subject"]),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Name, user.Name),
-                new Claim(ClaimTypes.Role, role.ToString()),
+                new Claim("Name", user.Name),
+                new Claim("Role", role.ToString()),
                 new Claim("UserId", user.ID.ToString()),
                 new Claim("Email", user.Email),
             };
@@ -40,7 +40,8 @@ namespace Infracstructures.Helpers
 
         public static bool ValidateToken(
           string token,
-          IConfiguration configuration
+          IConfiguration configuration,
+          out ClaimsPrincipal? claimsPrincipal
         )
         {
             JwtSecurityToken jwt;
@@ -58,13 +59,12 @@ namespace Infracstructures.Helpers
             try
             {
                 var tokenHandler = new JwtSecurityTokenHandler();
-                tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
-
-
+                claimsPrincipal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
                 return true;
             }
             catch (SecurityTokenValidationException ex)
             {
+                claimsPrincipal = null;
                 // Log the reason why the token is not valid
                 return false;
             }
