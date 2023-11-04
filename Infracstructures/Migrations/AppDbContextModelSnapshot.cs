@@ -445,9 +445,6 @@ namespace Infracstructures.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Total")
-                        .HasColumnType("int");
-
                     b.Property<string>("Voice")
                         .HasColumnType("nvarchar(max)");
 

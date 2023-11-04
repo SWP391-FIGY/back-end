@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infracstructures.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231102154512_InitDatabase")]
+    [Migration("20231103162518_InitDatabase")]
     partial class InitDatabase
     {
         /// <inheritdoc />
@@ -447,9 +447,6 @@ namespace Infracstructures.Migrations
                     b.Property<string>("Size")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Total")
-                        .HasColumnType("int");
 
                     b.Property<string>("Voice")
                         .HasColumnType("nvarchar(max)");

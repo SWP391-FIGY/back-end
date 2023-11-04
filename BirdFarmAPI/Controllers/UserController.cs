@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Application.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Infracstructures.Helpers;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace BirdFarmAPI.Controllers
 {
@@ -130,8 +133,9 @@ namespace BirdFarmAPI.Controllers
         {
             try
             {
+                ClaimsPrincipal claimsPrincipal;
                 var result = await _userService.LoginAndGenerateToken(userLoginVM.Email, userLoginVM.Password);
-                var tokenValidated = JWTHelpers.ValidateToken(result.Item1, _configuration);
+                var tokenValidated = JWTHelpers.ValidateToken(result.Item1, _configuration, out claimsPrincipal);
                 return Ok(new
                 {
                     Token = result.Item1,
@@ -158,12 +162,13 @@ namespace BirdFarmAPI.Controllers
         #endregion
         #region Login with Firebase Token
         [HttpPost("firebase")]
-        public async Task<IActionResult> LoginAndGenerateToken([FromForm] string firebaseToken)
+        public async Task<IActionResult> LoginAndGenerateToken([FromBody] FirebaseLoginVM firebaseLoginVM)
         {
             try
             {
-                var result = await _userService.LoginAndGenerateToken(firebaseToken);
-                var tokenValidated = JWTHelpers.ValidateToken(result.Item1, _configuration);
+                ClaimsPrincipal claimsPrincipal;
+                var result = await _userService.LoginAndGenerateToken(firebaseLoginVM.FirebaseToken);
+                var tokenValidated = JWTHelpers.ValidateToken(result.Item1, _configuration, out claimsPrincipal);
                 return Ok(new
                 {
                     Token = result.Item1,
@@ -176,6 +181,36 @@ namespace BirdFarmAPI.Controllers
                         result.Item2.ID,
                     }
                 });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new BaseFailedResponseModel()
+                {
+                    Status = BadRequest().StatusCode,
+                    Message = "Login Failed",
+                    Errors = ex.Message
+                });
+            }
+        }
+        #endregion
+
+        #region Get current user
+        [HttpPost("me")]
+        public async Task<IActionResult> GetCurrentLoginUser([FromBody] CurrentUserTokenVM currentUser)
+        {
+            try
+            {
+                ClaimsPrincipal claimsPrincipal;
+                var tokenValidated = JWTHelpers.ValidateToken(currentUser.UserToken, _configuration, out claimsPrincipal);
+                var claims = new
+                {
+                    ID = claimsPrincipal.FindFirst("UserId").Value,
+                    Email = claimsPrincipal.FindFirst("Email").Value,
+                    Name = claimsPrincipal.FindFirst("Name").Value,
+                    Role = claimsPrincipal.FindFirst("Role").Value,
+
+                };
+                return Ok(claims);
             }
             catch (Exception ex)
             {

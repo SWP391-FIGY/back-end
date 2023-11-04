@@ -59,8 +59,7 @@ namespace Infracstructures.Migrations
                     Voice = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LifeExpectancy = table.Column<int>(type: "int", nullable: false),
-                    Habitat = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Total = table.Column<int>(type: "int", nullable: true)
+                    Habitat = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
