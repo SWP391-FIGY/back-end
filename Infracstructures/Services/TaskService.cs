@@ -1,16 +1,18 @@
 ﻿using AutoMapper;
 using Domain.Models.Base;
 using Infracstructures.Interfaces;
-using AutoMapper;
-using Domain.Models.Base;
-using Infracstructures.Interfaces;
 
 namespace Infracstructures.Services
 {
     public class TaskService : ITaskService
     {
         private readonly IUnitOfWork _unitOfWork;
-       
+
+        public TaskService(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         #region Add New Task
         public async Task<Tasks> AddNewTask(Tasks task)
         {
@@ -39,7 +41,7 @@ namespace Infracstructures.Services
         {
             var taskList = _unitOfWork.TaskRepo.Get();
 
-            if (taskList == null) throw new InvalidOperationException();
+            if (taskList?.Count() == null) throw new InvalidOperationException();
 
             return taskList;
         }
