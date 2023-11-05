@@ -25,6 +25,7 @@ namespace Infracstructures
         GenericRepository<Supplier> SupplierRepo { get; }
         GenericRepository<User> UserRepo { get; }
         GenericRepository<Tasks> TaskRepo { get; }
+        GenericRepository<InventoryLog> InventoryLogRepo { get; }
         Task<int> SaveChangeAsync();
     }
 }

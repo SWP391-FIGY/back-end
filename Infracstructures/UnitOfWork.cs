@@ -22,7 +22,8 @@ namespace Infracstructures
         private GenericRepository<Supplier> _supplierRepo;
         private GenericRepository<Tasks> _taskRepo;
         private GenericRepository<User> _userRepo;
-        
+        private GenericRepository<InventoryLog> _inventoryLogRepo;
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
@@ -201,6 +202,18 @@ namespace Infracstructures
                     this._userRepo = new GenericRepository<User>(_context);
                 }
                 return _userRepo;
+            }
+        }
+
+        public GenericRepository<InventoryLog> InventoryLogRepo
+        {
+            get
+            {
+                if (this._inventoryLogRepo == null)
+                {
+                    this._inventoryLogRepo = new GenericRepository<InventoryLog>(_context);
+                }
+                return _inventoryLogRepo;
             }
         }
 
