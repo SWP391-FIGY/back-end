@@ -22,7 +22,7 @@ namespace Infracstructures
         private GenericRepository<Supplier> _supplierRepo;
         private GenericRepository<Tasks> _taskRepo;
         private GenericRepository<User> _userRepo;
-        
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
