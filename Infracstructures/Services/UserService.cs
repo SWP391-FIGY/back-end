@@ -31,9 +31,18 @@ namespace Infracstructures.Services
             var userList = _unitOfWork.UserRepo.Get();
 
             // Check duplicate email
-            if (userList.Any(x => x.Email.ToLower().Equals(user.Email.ToLower()))) throw new Exception("Duplicate email!!!");
-            if (userList.Any(x => x.FirebaseID.ToLower().Equals(user.FirebaseID.ToLower()))) throw new Exception("Duplicate FirebaseID!!!");
-
+            if (userList.Any(x => x.Email.ToLower().Equals(user.Email.ToLower()))) 
+                throw new Exception("Duplicate email!!!");
+            foreach (User checkUser in userList)
+            {
+                if (!string.IsNullOrEmpty(checkUser.FirebaseID) && !string.IsNullOrEmpty(user.FirebaseID))
+                {
+                    if (checkUser.FirebaseID.Equals(user.FirebaseID.ToLower()))
+                    {
+                        throw new Exception("Duplicate FirebaseID!!!");
+                    }
+                }
+            }
 
             await _unitOfWork.UserRepo.Insert(user);
 

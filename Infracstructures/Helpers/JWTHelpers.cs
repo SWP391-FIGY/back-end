@@ -32,7 +32,7 @@ namespace Infracstructures.Helpers
                 configuration["Jwt:Issuer"],
                 configuration["Jwt:Audience"],
                 claims: claims,
-                expires: currentDateTime.AddMinutes(30),
+                expires: currentDateTime.AddMinutes(180),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

@@ -23,7 +23,7 @@ namespace Infracstructures.Services
         #region Create Species
         public async Task<Species> CreateSpecies(Species species)
         {
-            var checkname = _unitOfWork.SpeciesRepo.Get();
+            var checkname = _unitOfWork.SpeciesRepo.Get().ToList();
             if (checkname?.FirstOrDefault(x => x.Name.Equals(species.Name,
                 StringComparison.OrdinalIgnoreCase)) != null)
                 throw new ArgumentException();

@@ -202,6 +202,7 @@ namespace BirdFarmAPI.Controllers
             {
                 ClaimsPrincipal claimsPrincipal;
                 var tokenValidated = JWTHelpers.ValidateToken(currentUser.UserToken, _configuration, out claimsPrincipal);
+                if (claimsPrincipal == null) throw new Exception("Invalid claims");
                 var claims = new
                 {
                     ID = claimsPrincipal.FindFirst("UserId").Value,
