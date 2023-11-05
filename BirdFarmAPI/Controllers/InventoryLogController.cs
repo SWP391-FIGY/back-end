@@ -1,6 +1,7 @@
 ﻿using Application.ResponseModels;
 using Domain.Models.Base;
 using Infracstructures.Interfaces;
+using Infracstructures.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -10,22 +11,22 @@ namespace BirdFarmAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LogServiceController : ControllerBase
+    public class InventoryLogController : ControllerBase
     {
-        private readonly ILogService _logService;
+        private readonly IInventoryLogService _inventoryLogService;
 
-        public LogServiceController(ILogService logService)
+        public InventoryLogController(IInventoryLogService inventoryLogService)
         {
-            _logService = logService;
+            _inventoryLogService = inventoryLogService;
         }
 
-        #region Add New Log
+        #region Add New InventoryLog
         [HttpPost]
-        public async Task<IActionResult> AddNewLog(Log log)
+        public async Task<IActionResult> AddNewInventoryLog(InventoryLog inventoryLog)
         {
             try
             {
-                var result = await _logService.AddNewLog(log);
+                var result = await _inventoryLogService.AddNewInventoryLog(inventoryLog);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -40,13 +41,13 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Update Log
+        #region Update InventoryLog
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateLog(Log log, int id)
+        public async Task<IActionResult> UpdateInventoryLog(InventoryLog inventoryLog, int id)
         {
             try
             {
-                var result = await _logService.UpdateLog(log, id);
+                var result = await _inventoryLogService.UpdateInventoryLog(inventoryLog, id);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -61,14 +62,14 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get Log By ID
+        #region Get InventoryLog By ID
         [HttpGet("{id}")]
         [EnableQuery]
         public async Task<IActionResult> GetByID(int id)
         {
             try
             {
-                var result = await _logService.GetLogByID(id);
+                var result = await _inventoryLogService.GetInventoryLogByID(id);
                 return Ok(result);
             }
             catch (ArgumentException ex)
@@ -92,14 +93,14 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Get All Log
+        #region Get All InventoryLog
         [HttpGet]
         [EnableQuery]
         public async Task<IActionResult> Get()
         {
             try
             {
-                var result = await _logService.GetAllLog();
+                var result = await _inventoryLogService.GetAllInventoryLog();
                 return Ok(result);
             }
             catch (InvalidOperationException ex)
@@ -118,13 +119,13 @@ namespace BirdFarmAPI.Controllers
         }
         #endregion
 
-        #region Delete Log
+        #region Delete InventoryLog
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLog(int id)
+        public async Task<IActionResult> DeleteInventoryLog(int id)
         {
             try
             {
-                var log = await _logService.DeleteLog(id);
+                var log = await _inventoryLogService.DeleteInventoryLog(id);
                 return Ok(log);
             }
             catch (Exception ex)
