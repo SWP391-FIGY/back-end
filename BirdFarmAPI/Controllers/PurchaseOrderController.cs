@@ -1,6 +1,7 @@
 ﻿using Application.ResponseModels;
 using Domain.Models.Base;
 using Infracstructures.Interfaces;
+using Infracstructures.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,11 @@ namespace BirdFarmAPI.Controllers
     public class PurchaseOrderController : ControllerBase
     {
         private readonly IPurchaseOrderService _purchaseOrderService;
+
+        public PurchaseOrderController(IPurchaseOrderService purchaseOrderService)
+        {
+            _purchaseOrderService = purchaseOrderService;
+        }
 
         #region Create Purchase Order
         [HttpPost]

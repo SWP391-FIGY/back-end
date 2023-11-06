@@ -16,7 +16,7 @@ namespace Domain.Models.Base
         public int? SupplierID { get; set; }
         public DateTime CreateDate { get; set; }
         public int Status { get; set; }
-        public string Note { get; set; }
+        public string? Note { get; set; }
         public Supplier? Supplier { get; set; }
         public User? Creator { get; set; }
         public PurchaseRequest? PurchaseRequest { get; set; }
