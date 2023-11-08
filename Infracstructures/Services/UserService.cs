@@ -124,14 +124,27 @@ namespace Infracstructures.Services
         public async Task<User> UpdateUser(int id, User user)
         {
             user.Password = user.Password.Hash();
-            _unitOfWork.UserRepo.Update(user);
-            var check = await _unitOfWork.SaveChangeAsync();
-
-            if (check == 0)
+            var existedUser = _unitOfWork.UserRepo.Get(filter: x => x.ID == user.ID).FirstOrDefault();
+            if (existedUser != null)
             {
-                throw new ArgumentException("Update failed!!!");
+                existedUser.Name = user.Name;
+                existedUser.Email = user.Email;
+                if (!string.IsNullOrEmpty(user.Password))
+                {
+                    existedUser.Password = user.Password.Hash();
+                }
+                existedUser.Role = user.Role;
+                existedUser.Status = user.Status;
+                _unitOfWork.UserRepo.Update(existedUser);
+                var check = await _unitOfWork.SaveChangeAsync();
+                if (check == 0)
+                {
+                    throw new ArgumentException("Update failed!!!");
+                }
             }
-            return user;
+
+            
+            return existedUser;
         }
 
         public async Task<FirebaseToken> VerifyFirebaseTokenAsync(string idToken)
