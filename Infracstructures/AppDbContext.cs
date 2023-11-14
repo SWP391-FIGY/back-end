@@ -9,7 +9,7 @@ namespace Infracstructures
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions options) : base(options)
-        { 
+        {
         }
 
         public DbSet<Bird> Bird { get; set; }
@@ -20,12 +20,11 @@ namespace Infracstructures
         public DbSet<MealMenu> MealMenu { get; set; }
         public DbSet<Log> Log { get; set; }
         public DbSet<MenuDetail> MenuDetail { get; set; }
-        public DbSet<PurchaseOrder> PurchaseOrder { get; set;}
-        public DbSet<PurchaseOrderDetail> PurchaseOrderDetail { get;set; }
-        public DbSet<PurchaseRequest> PurchaseRequest { get; set;}
-        public DbSet<PurchaseRequestDetail> PurchaseRequestDetail { get; set ; }
+        public DbSet<PurchaseOrder> PurchaseOrder { get; set; }
+        public DbSet<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
+        public DbSet<PurchaseRequest> PurchaseRequest { get; set; }
+        public DbSet<PurchaseRequestDetail> PurchaseRequestDetail { get; set; }
         public DbSet<Species> Species { get; set; }
-        public DbSet<Supplier> Supplier { get; set; }
         public DbSet<Tasks> Task { get; set; }
         public DbSet<User> User { get; set; }
 
@@ -56,6 +55,9 @@ namespace Infracstructures
                 .HasOne(e => e.MealMenu)
                 .WithMany(e => e.FeedingPlans)
                 .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Tasks>()
+                .Property(b => b.DateTime)
+                .HasDefaultValueSql("GETUTCDATE()");
         }
     }
 }

@@ -30,6 +30,7 @@ namespace Infracstructures
             services.AddScoped<IFeedingPlanService, FeedingPlanService>();
             services.AddScoped<IFoodService, FoodService>();
             services.AddScoped<ILogService, LogService>();
+            services.AddScoped<IInventoryLogService, InventoryLogService>();
             services.AddScoped<IMealMenuService, MealMenuService>();
             services.AddScoped<IMenuDetailService, MenuDetailService>();
             services.AddScoped<IPurchaseOrderDetailService, PurchaseOrderDetailService>();

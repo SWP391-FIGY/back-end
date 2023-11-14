@@ -19,7 +19,6 @@ namespace Infracstructures
         private GenericRepository<PurchaseRequest> _purchaseRequestRepo;
         private GenericRepository<PurchaseRequestDetail> _purchaseRequestDetailRepo;
         private GenericRepository<Species> _speciesRepo;
-        private GenericRepository<Supplier> _supplierRepo;
         private GenericRepository<Tasks> _taskRepo;
         private GenericRepository<User> _userRepo;
         private GenericRepository<InventoryLog> _inventoryLogRepo;
@@ -169,18 +168,7 @@ namespace Infracstructures
             }
         }
 
-        public GenericRepository<Supplier> SupplierRepo
-        {
-            get
-            {
-                if(this._supplierRepo == null)
-                {
-                    this._supplierRepo = new GenericRepository<Supplier>(_context);
-                }
-                return _supplierRepo;
-            }
-        }
-
+        
         public GenericRepository<Domain.Models.Base.Tasks> TaskRepo
         {
             get

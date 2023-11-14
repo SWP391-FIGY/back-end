@@ -13,7 +13,7 @@ namespace Domain.Models.Base
         public int? CageID { get; set; }
         public int? StaffID { get; set; }
         public string TaskName { get; set; }
-        public string DateTime { get; set; }
+        public DateTime DateTime { get; set; }
         public string? Description { get; set; }
         public string Status { get; set; }
         public Bird? Bird { get; set; }

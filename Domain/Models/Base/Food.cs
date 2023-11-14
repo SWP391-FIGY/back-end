@@ -15,6 +15,7 @@ namespace Domain.Models.Base
         public string Unit { set; get; }
         public double StandardPrice { set; get; }
         public int SafetyThreshold { set; get; }
+        public IList<InventoryLog>? InventoryLog { get; set; }
         public IList<PurchaseRequestDetail>? PurchaseRequestDetails { get; set;}
         public IList<MenuDetail>? MenuDetails { get; set; }
     }

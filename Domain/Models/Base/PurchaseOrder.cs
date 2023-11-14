@@ -17,7 +17,6 @@ namespace Domain.Models.Base
         public DateTime CreateDate { get; set; }
         public int Status { get; set; }
         public string? Note { get; set; }
-        public Supplier? Supplier { get; set; }
         public User? Creator { get; set; }
         public PurchaseRequest? PurchaseRequest { get; set; }
         public IList<PurchaseOrderDetail>? PurchaseOrderDetails { get; set; }

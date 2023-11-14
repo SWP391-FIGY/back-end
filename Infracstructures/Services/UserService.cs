@@ -167,8 +167,8 @@ namespace Infracstructures.Services
                 Name = payload.Claims["name"].ToString(),
                 Email = email,
                 FirebaseID = payload.Uid,
-                Role = 1,
-                Status = 1,
+                Role = 2,
+                Status = 0,
             };
 
             await _unitOfWork.UserRepo.Insert(user);

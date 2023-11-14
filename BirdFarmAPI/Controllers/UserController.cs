@@ -49,7 +49,7 @@ namespace BirdFarmAPI.Controllers
         #endregion
 
         #region Get User By ID
-        [Authorize]
+        [Authorize()]
         [HttpGet("{id}")]
         [EnableQuery]
         public async Task<IActionResult> Get(int id)
